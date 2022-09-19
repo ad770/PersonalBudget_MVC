@@ -1,18 +1,65 @@
 body {
     margin-top: 3em;
 }
-/*
-.alert {
-    border: 1px solid #ccc;
-    padding: 6px;
+
+body {
+    background-image: url('img/wallpaper.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: 14% 84%;
 }
-.alert-info {
-    background-color: #d9edf7;
+
+.active {
+    background-color: #cfccc0;
+    color: green;
 }
-.alert-success {
-    background-color: #dff0d8;
+
+.error {
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
-.alert-warning {
-    background-color: #fcf8e3;
+
+
+
+h3 {
+    background-color: RGBa(229, 226, 217, 0.8);
 }
-*/
+
+h2 {
+    background-color: RGBa(229, 226, 217, 0.8);
+}
+
+#table_detail {
+    text-align: center;
+    border-collapse: collapse;
+    background-color: #ffffffe5;
+    color: #2E2E2E;
+    border: #A4A4A4;
+}
+
+#table_detail thead tr:hover {
+    background-color: unset;
+}
+
+#table_detail tr.hidden_tr {
+    text-align: left;
+    background-color: #ccccce;
+}
+
+#table_detail tr:hover {
+    background-color: #f2f2f2;
+}
+
+#table_detail tr.hidden_tr:hover {
+    text-align: left;
+    background-color: #cad3dd;
+}
+
+#table_detail .hidden_row {
+    display: none;
+}
+
+#main_table_row td {
+    cursor: pointer;
+}
