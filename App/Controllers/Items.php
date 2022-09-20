@@ -26,13 +26,33 @@ class Items extends Authenticated
     */
 
     /**
-     * Items index
+     * Incomes items
      *
      * @return void
      */
-    public function indexAction()
+    public function incomesAction()
     {
-        View::renderTemplate('Items/index.html');
+        View::renderTemplate('Items/incomes.html');
+    }
+
+    /**
+     * Expenses items
+     *
+     * @return void
+     */
+    public function expensesAction()
+    {
+        View::renderTemplate('Items/expenses.html');
+    }
+
+    /**
+     * Balance items
+     *
+     * @return void
+     */
+    public function balanceAction()
+    {
+        View::renderTemplate('Items/balance.html');
     }
 
     /**
