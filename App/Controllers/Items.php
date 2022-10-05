@@ -35,6 +35,10 @@ class Items extends Authenticated
         View::renderTemplate('Items/incomes.html');
     }
 
+    public function addIncomeAction()
+    {
+    }
+
     /**
      * Expenses items
      *
@@ -43,6 +47,10 @@ class Items extends Authenticated
     public function expensesAction()
     {
         View::renderTemplate('Items/expenses.html');
+    }
+
+    public function addExpenseAction()
+    {
     }
 
     /**

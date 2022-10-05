@@ -5,19 +5,18 @@
 {% block body %}
 
 {% if current_user %}
-Hello {{ current_user.name }}.
 <div class="row text-center">
-    <h2>Twój bilans z obecnego miesiąca:</h2>
+    <h2>Hello {{ current_user.name }}. Twój bilans z obecnego miesiąca:</h2>
 </div>
 <div>
-    <h3 <?php if ($month_balance < 0) { echo 'class="text-center text-danger mt-3"' ; } else {
+    <!-- <h3 <?php if ($month_balance < 0) { echo 'class="text-center text-danger mt-3"' ; } else {
         echo 'class="text-center text-success mt-3"' ; } ?>>
         <?php echo "Total: " . $month_balance . " zł";
                 ?>
-    </h3>
+    </h3> -->
 
     <h4 class="text-center">
-        <?php if ($month_balance > 5000) {
+        <!-- <?php if ($month_balance > 5000) {
                                 echo 'Brawo! Świetnie zarządzasz swoim budżetem!';
                             } elseif ($month_balance <= 5000 && $month_balance > 2000) {
                                 echo 'Brawo! Dobrze sobie radzisz, wychodzisz na plus!';
@@ -29,7 +28,7 @@ Hello {{ current_user.name }}.
                                 echo 'Twoje wydatki i przychody się zrównały!';
                             } elseif ($month_balance < 0) {
                                 echo 'Uwaga! Zacznij pilnować wydatków!';
-                            } ?>
+                            } ?> -->
     </h4>
 
 </div>

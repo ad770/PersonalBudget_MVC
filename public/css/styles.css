@@ -3,7 +3,7 @@ body {
 }
 
 body {
-    background-image: url('img/wallpaper.jpg');
+    background-image: url('/public/img/wallpaper.jpg');
     background-attachment: fixed;
     background-size: cover;
     background-position: 14% 84%;
