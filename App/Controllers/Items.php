@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Models\Income;
+use \App\Auth;
+
 
 /**
  * Items controller (example)
@@ -12,18 +15,17 @@ use \Core\View;
 //class Items extends \Core\Controller
 class Items extends Authenticated
 {
-
     /**
-     * Require the user to be authenticated before giving access to all methods in the controller
+     * Before filter - called before each action method
      *
      * @return void
      */
-    /*
     protected function before()
     {
-        $this->requireLogin();
+        parent::before();
+
+        $this->user = Auth::getUser();
     }
-    */
 
     /**
      * Incomes items
@@ -35,8 +37,12 @@ class Items extends Authenticated
         View::renderTemplate('Items/incomes.html');
     }
 
-    public function addIncomeAction()
+    public function newIncomeAction()
     {
+        $income = new Income($_POST);
+        $income->addIncome();
+
+        View::renderTemplate('Items/incomes.html');
     }
 
     /**
@@ -51,6 +57,7 @@ class Items extends Authenticated
 
     public function addExpenseAction()
     {
+        View::renderTemplate('Items/expenses.html');
     }
 
     /**

@@ -10,7 +10,7 @@ use \Core\View;
  *
  * PHP version 7.0
  */
-class User extends \Core\Model
+class Income extends \Core\Model
 {
 
     /**
@@ -36,26 +36,26 @@ class User extends \Core\Model
 
     public function addIncome()
     {
-        $this->validate();
+        // $this->validate();
 
-        if (empty($this->errors)) {
+        // if (empty($this->errors)) {
 
-            $sql = 'INSERT INTO incomes (user_id, income_id_cat, income_value, date_of_income, income_comment)
+        $sql = 'INSERT INTO `incomes` (`user_id`, `income_category_assigned_to_user_id`, `amount`, `date_of_income`, `income_comment`)
                     VALUES (:user_id, :income_id_cat, :income_value, :date_of_income, :income_comment)';
 
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_STR);
-            $stmt->bindValue(':income_id_cat', $this->income_id_cat, PDO::PARAM_STR);
-            $stmt->bindValue(':income_value', $this->income_value, PDO::PARAM_STR);
-            $stmt->bindValue(':date_of_income', $this->date_of_income, PDO::PARAM_STR);
-            $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_STR);
+        $stmt->bindValue(':income_category_assigned_to_user_id', $this->income_cat, PDO::PARAM_STR);
+        $stmt->bindValue(':amount', $this->income_value, PDO::PARAM_STR);
+        $stmt->bindValue(':date_of_income', $this->income_date, PDO::PARAM_STR);
+        $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
 
-            return $stmt->execute();
-        }
+        return $stmt->execute();
+        // }
 
-        return false;
+        // return false;
     }
 
     public function getIncomeCategories()
@@ -91,9 +91,9 @@ class User extends \Core\Model
         }
 
         //Category
-        if ($this->income_id_cat == '') {
-            $this->errors[] = 'Wybierz kategorię przychodu';
-        }
+        // if ($this->income_id_cat == '') {
+        //     $this->errors[] = 'Wybierz kategorię przychodu';
+        // }
 
         //Date of income
         if ($this->date_of_income == '') {
