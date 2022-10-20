@@ -40,9 +40,14 @@ class Items extends Authenticated
     public function newIncomeAction()
     {
         $income = new Income($_POST);
-        $income->addIncome();
 
-        View::renderTemplate('Items/incomes.html');
+        if ($income->addIncome()) {
+            $this->redirect('/');
+        } else {
+            View::renderTemplate('Items/incomes.html', [
+                'income' => $income
+            ]);
+        }
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use PDO;
+use \App\Models\User;
+use \App\Auth;
 use \Core\View;
 
 /**
@@ -36,26 +38,25 @@ class Income extends \Core\Model
 
     public function addIncome()
     {
-        // $this->validate();
+        $this->validate();
 
-        // if (empty($this->errors)) {
+        if (empty($this->errors)) {
 
-        $sql = 'INSERT INTO `incomes` (`user_id`, `income_category_assigned_to_user_id`, `amount`, `date_of_income`, `income_comment`)
-                    VALUES (:user_id, :income_id_cat, :income_value, :date_of_income, :income_comment)';
+            $sql = 'INSERT INTO `incomes` (`user_id`, `income_category_assigned_to_user_id`, `amount`, `date_of_income`, `income_comment`)
+                    VALUES (:id, :income_id_cat, :income_value, :income_date, :income_comment)';
 
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            // $stmt->bindValue(':id', $user_id, PDO::PARAM_STR);
+            $stmt->bindValue(':income_category_assigned_to_user_id', $this->income_cat, PDO::PARAM_STR);
+            $stmt->bindValue(':amount', $this->income_value, PDO::PARAM_STR);
+            $stmt->bindValue(':income_date', $this->income_date, PDO::PARAM_STR);
+            $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
 
-        $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_STR);
-        $stmt->bindValue(':income_category_assigned_to_user_id', $this->income_cat, PDO::PARAM_STR);
-        $stmt->bindValue(':amount', $this->income_value, PDO::PARAM_STR);
-        $stmt->bindValue(':date_of_income', $this->income_date, PDO::PARAM_STR);
-        $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
+            return $stmt->execute();
+        }
 
-        return $stmt->execute();
-        // }
-
-        // return false;
+        return false;
     }
 
     public function getIncomeCategories()
@@ -96,7 +97,7 @@ class Income extends \Core\Model
         // }
 
         //Date of income
-        if ($this->date_of_income == '') {
+        if ($this->income_date == '') {
             $this->errors[] = 'Wybierz datę przychodu';
         }
     }
