@@ -56,8 +56,9 @@ class Items extends Authenticated
 
     public function showIncomesCategoryAction()
     {
-        // foreach ($categories as $category) {
-        // }
+        foreach ($categories as $category) {
+            echo "<option value='" . $category . "''>" . $category . "</option>";
+        }
     }
 
     /**
