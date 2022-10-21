@@ -29,27 +29,28 @@ class Income extends \Core\Model
      *
      * @return void
      */
-    public function __construct($data = [])
+    public function __construct($incomeData = [])
     {
-        foreach ($data as $key => $value) {
+        foreach ($incomeData as $key => $value) {
             $this->$key = $value;
         };
     }
 
     public function addIncome()
     {
-        $this->validate();
+        // $this->validate();
 
         if (empty($this->errors)) {
 
             $sql = 'INSERT INTO `incomes` (`user_id`, `income_category_assigned_to_user_id`, `amount`, `date_of_income`, `income_comment`)
-                    VALUES (:id, :income_id_cat, :income_value, :income_date, :income_comment)';
-
+                    VALUES (:id, :income_cat, :income_value, :income_date, :income_comment)';
+            $user_id = Auth::getUser();
             $db = static::getDB();
             $stmt = $db->prepare($sql);
-            // $stmt->bindValue(':id', $user_id, PDO::PARAM_STR);
+            var_dump($this);
+            $stmt->bindValue(':id', $user_id->id, PDO::PARAM_STR);
             $stmt->bindValue(':income_category_assigned_to_user_id', $this->income_cat, PDO::PARAM_STR);
-            $stmt->bindValue(':amount', $this->income_value, PDO::PARAM_STR);
+            $stmt->bindValue(':income_value', $this->income_value, PDO::PARAM_STR);
             $stmt->bindValue(':income_date', $this->income_date, PDO::PARAM_STR);
             $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
 

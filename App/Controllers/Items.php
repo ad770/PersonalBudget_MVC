@@ -5,6 +5,8 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Income;
 use \App\Auth;
+use App\Models\RememberedLogin;
+
 
 
 /**
@@ -40,14 +42,22 @@ class Items extends Authenticated
     public function newIncomeAction()
     {
         $income = new Income($_POST);
+        // var_dump($income->income_value);
+        $income->addIncome();
+        var_dump($income);
+        // if ($income->addIncome()) {
+        //     $this->redirect('Items/balance.html');
+        // } else {
+        //     View::renderTemplate('Items/incomes.html', [
+        //         'income' => $income
+        //     ]);
+        // }
+    }
 
-        if ($income->addIncome()) {
-            $this->redirect('/');
-        } else {
-            View::renderTemplate('Items/incomes.html', [
-                'income' => $income
-            ]);
-        }
+    public function showIncomesCategoryAction()
+    {
+        // foreach ($categories as $category) {
+        // }
     }
 
     /**
