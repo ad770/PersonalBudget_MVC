@@ -45,7 +45,7 @@ class Items extends Authenticated
         // var_dump($income->income_value);
         $income->addIncome();
         if ($income->addIncome()) {
-            $this->redirect('Items/balance.html');
+            $this->redirect('/Items/incomes');
         } else {
             View::renderTemplate('Items/incomes.html', [
                 'income' => $income
