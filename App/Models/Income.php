@@ -42,18 +42,19 @@ class Income extends \Core\Model
 
         if (empty($this->errors)) {
 
-            $sql = 'INSERT INTO `incomes` (`user_id`, `income_category_assigned_to_user_id`, `amount`, `date_of_income`, `income_comment`)
-                    VALUES (:id, :income_cat, :income_value, :income_date, :income_comment)';
+            $sql = 'INSERT INTO incomes (user_id, income_category_assigned_to_user_id, amount, date_of_income, income_comment)
+                    VALUES (:user_id, :income_cat, :income_value, :income_date, :income_comment)';
             $user_id = Auth::getUser();
             $db = static::getDB();
             $stmt = $db->prepare($sql);
-            var_dump($this);
-            $stmt->bindValue(':id', $user_id->id, PDO::PARAM_STR);
-            $stmt->bindValue(':income_category_assigned_to_user_id', $this->income_cat, PDO::PARAM_STR);
+            $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_STR);
+            $stmt->bindValue(':income_cat', $this->income_cat, PDO::PARAM_STR);
             $stmt->bindValue(':income_value', $this->income_value, PDO::PARAM_STR);
             $stmt->bindValue(':income_date', $this->income_date, PDO::PARAM_STR);
             $stmt->bindValue(':income_comment', $this->income_comment, PDO::PARAM_STR);
+            var_dump($user_id->id, ' ', $this->income_cat, ' ', $this->income_value, ' ', $this->income_date, ' ', $this->income_comment);
 
+            var_dump($stmt);
             return $stmt->execute();
         }
 

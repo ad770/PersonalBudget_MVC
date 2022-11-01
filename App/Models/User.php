@@ -64,6 +64,7 @@ class User extends \Core\Model
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
+            $this->addCategories();
             return $stmt->execute();
         }
 
@@ -75,6 +76,21 @@ class User extends \Core\Model
      *
      * @return void
      */
+
+    public function addCategories()
+    {
+        // $result = $db->prepare("SELECT id FROM users WHERE email='$email'");
+        // $result->execute();
+        // $row = $result->fetch(PDO::FETCH_ASSOC);
+        // $user_id = $row['id'];
+
+        // $statement = $db->prepare("INSERT INTO expenses_category_assigned_to_users SELECT null, '$user_id', name FROM expenses_category_default");
+        // $statement->execute();
+        // $statement = $db->prepare("INSERT INTO incomes_category_assigned_to_users SELECT null, '$user_id', name FROM incomes_category_default");
+        // $statement->execute();
+        // $statement = $db->prepare("INSERT INTO payment_methods_assigned_to_users SELECT null, '$user_id', name FROM payment_methods_default");
+        // $statement->execute();
+    }
     public function validate()
     {
         // Name
@@ -104,7 +120,6 @@ class User extends \Core\Model
             if (preg_match('/.*\d+.*/i', $this->password) == 0) {
                 $this->errors[] = 'Password needs at least one number';
             }
-
         }
     }
 
@@ -239,7 +254,6 @@ class User extends \Core\Model
             if ($user->startPasswordReset()) {
 
                 $user->sendPasswordResetEmail();
-
             }
         }
     }
@@ -314,7 +328,7 @@ class User extends \Core\Model
         $user = $stmt->fetch();
 
         if ($user) {
-            
+
             // Check password reset token hasn't expired
             if (strtotime($user->password_reset_expires_at) > time()) {
 
@@ -349,10 +363,10 @@ class User extends \Core\Model
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
-                                                  
+
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-                                          
+
             return $stmt->execute();
         }
 
@@ -398,7 +412,7 @@ class User extends \Core\Model
 
         $stmt->execute();
     }
-    
+
     /**
      * Update the user's profile
      *
@@ -444,7 +458,6 @@ class User extends \Core\Model
 
                 $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
                 $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-
             }
 
             return $stmt->execute();

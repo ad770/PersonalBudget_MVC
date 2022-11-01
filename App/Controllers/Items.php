@@ -44,18 +44,19 @@ class Items extends Authenticated
         $income = new Income($_POST);
         // var_dump($income->income_value);
         $income->addIncome();
-        var_dump($income);
-        // if ($income->addIncome()) {
-        //     $this->redirect('Items/balance.html');
-        // } else {
-        //     View::renderTemplate('Items/incomes.html', [
-        //         'income' => $income
-        //     ]);
-        // }
+        if ($income->addIncome()) {
+            $this->redirect('Items/balance.html');
+        } else {
+            View::renderTemplate('Items/incomes.html', [
+                'income' => $income
+            ]);
+        }
     }
 
     public function showIncomesCategoryAction()
     {
+
+        $categories = Income::getIncomeCategories();
         foreach ($categories as $category) {
             echo "<option value='" . $category . "''>" . $category . "</option>";
         }
