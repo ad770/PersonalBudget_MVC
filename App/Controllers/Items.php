@@ -36,29 +36,29 @@ class Items extends Authenticated
      */
     public function incomesAction()
     {
-        View::renderTemplate('Items/incomes.html');
+        // View::renderTemplate('Items/incomes.html');
+        // // Przy wczytywaniu strony dodawania nowych przychodów powinny automatycznie pobierać się kategorie przychodów dla zalogowanego użytkownika
+        // // W Models\Income.php istnieje funkcja getIncomeCategories()
+        // // Jak jej użyć?
+        // $categories = Income::getIncomeCategories();
+        // var_dump($categories);
+
+        $categories = Income::getIncomeCategories();
+        View::renderTemplate('Items/incomes.html', [
+            'categories' => $categories
+        ]);
+        var_dump($categories);
     }
 
     public function newIncomeAction()
     {
         $income = new Income($_POST);
-        // var_dump($income->income_value);
-        $income->addIncome();
         if ($income->addIncome()) {
             $this->redirect('/Items/incomes');
         } else {
             View::renderTemplate('Items/incomes.html', [
                 'income' => $income
             ]);
-        }
-    }
-
-    public function showIncomesCategoryAction()
-    {
-
-        $categories = Income::getIncomeCategories();
-        foreach ($categories as $category) {
-            echo "<option value='" . $category . "''>" . $category . "</option>";
         }
     }
 

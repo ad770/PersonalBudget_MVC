@@ -34,9 +34,15 @@
                 <label for="income_cat"></label>
                 <select name="income_cat" id="income_cat" class="rounded-pill" value="{{income.income_cat}}">
                     <option disabled selected>Wybierz kategorię przychodu</option>
-                    <option>Wynagrodzenie</option>
+                    <!-- <option>Sprzedaż</option>
+                    <option>Inne</option> -->
+
+                    @foreach ($categories as $category)
+                    <option>{{category.name}}</option>
+                    @endforeach
+                    <!-- <option>Wynagrodzenie</option>
                     <option>Sprzedaż</option>
-                    <option>Inne</option>
+                    <option>Inne</option> -->
 
                     <!-- <?php
                     while ($cat_results = $cat_query->fetch(PDO::FETCH_ASSOC)) {

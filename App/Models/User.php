@@ -84,12 +84,12 @@ class User extends \Core\Model
         // $row = $result->fetch(PDO::FETCH_ASSOC);
         // $user_id = $row['id'];
 
-        // $statement = $db->prepare("INSERT INTO expenses_category_assigned_to_users SELECT null, '$user_id', name FROM expenses_category_default");
-        // $statement->execute();
-        // $statement = $db->prepare("INSERT INTO incomes_category_assigned_to_users SELECT null, '$user_id', name FROM incomes_category_default");
-        // $statement->execute();
-        // $statement = $db->prepare("INSERT INTO payment_methods_assigned_to_users SELECT null, '$user_id', name FROM payment_methods_default");
-        // $statement->execute();
+        // $expense_cat_statement = 'INSERT INTO expenses_category_assigned_to_users SELECT null, '$user_id', name FROM expenses_category_default'
+        // $expense_cat_statement->execute();
+        // $income_cat_statement = $db->prepare("INSERT INTO incomes_category_assigned_to_users SELECT null, '$user_id', name FROM incomes_category_default");
+        // $income_cat_statement->execute();
+        // $payment_method_statement = $db->prepare("INSERT INTO payment_methods_assigned_to_users SELECT null, '$user_id', name FROM payment_methods_default");
+        // $payment_method_statement->execute();
     }
     public function validate()
     {
