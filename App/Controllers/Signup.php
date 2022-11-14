@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Models\Income;
 
 /**
  * Signup controller
@@ -34,16 +35,15 @@ class Signup extends \Core\Controller
 
         if ($user->save()) {
 
-            $user->sendActivationEmail();
+            //$user->sendActivationEmail();
+            Income::createIncomeCategoriesForNewUser($user);
 
             $this->redirect('/signup/success');
-
         } else {
 
             View::renderTemplate('Signup/new.html', [
                 'user' => $user
             ]);
-
         }
     }
 

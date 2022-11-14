@@ -64,7 +64,7 @@ class Income extends \Core\Model
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
@@ -72,6 +72,22 @@ class Income extends \Core\Model
 
         return $stmt->fetchAll();
     }
+
+    // Funckaj do przepisywania defaultowych kategorii przychodów
+    // Nie odnajduje id wewnątrz zmiennej $user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public static function createIncomeCategoriesForNewUser($user)
+    {
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (id, user_id, name) 
+                SELECT :user_id, name FROM incomes_category_default';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $stmt->execute();
+    }
+
     /**
      * Validate current property values, adding valiation error messages to the errors array property
      *

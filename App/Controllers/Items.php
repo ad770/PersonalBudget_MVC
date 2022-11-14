@@ -17,17 +17,17 @@ use App\Models\RememberedLogin;
 //class Items extends \Core\Controller
 class Items extends Authenticated
 {
-    /**
-     * Before filter - called before each action method
-     *
-     * @return void
-     */
-    protected function before()
-    {
-        parent::before();
+    // /**
+    //  * Before filter - called before each action method
+    //  *
+    //  * @return void
+    //  */
+    // protected function before()
+    // {
+    //     parent::before();
 
-        $this->user = Auth::getUser();
-    }
+    //     $this->user = Auth::getUser();
+    // }
 
     /**
      * Incomes items
@@ -36,18 +36,17 @@ class Items extends Authenticated
      */
     public function incomesAction()
     {
-        // View::renderTemplate('Items/incomes.html');
-        // // Przy wczytywaniu strony dodawania nowych przychodów powinny automatycznie pobierać się kategorie przychodów dla zalogowanego użytkownika
-        // // W Models\Income.php istnieje funkcja getIncomeCategories()
-        // // Jak jej użyć?
-        // $categories = Income::getIncomeCategories();
-        // var_dump($categories);
-
         $categories = Income::getIncomeCategories();
         View::renderTemplate('Items/incomes.html', [
             'categories' => $categories
         ]);
-        var_dump($categories);
+        // Funkcja wypisuje poprawnie pobrane dane z bazy danych
+        // Nie wyświetla nic w incomes.html 
+        // Błąd z pętlą foreach !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        foreach ($categories as $category) {
+            echo ($category->name);
+            echo "<br>";
+        };
     }
 
     public function newIncomeAction()
