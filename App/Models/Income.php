@@ -38,7 +38,7 @@ class Income extends \Core\Model
 
     public function addIncome()
     {
-        // $this->validate();
+        $this->validate();
 
         if (empty($this->errors)) {
 
@@ -101,12 +101,12 @@ class Income extends \Core\Model
         }
 
         //Category
-        // if ($this->income_id_cat == '') {
-        //     $this->errors[] = 'Wybierz kategorię przychodu';
-        // }
+        if (empty($this->income_cat)) {
+            $this->errors[] = 'Wybierz kategorię przychodu';
+        }
 
         //Date of income
-        if ($this->income_date == '') {
+        if (empty($this->income_date)) {
             $this->errors[] = 'Wybierz datę przychodu';
         }
     }

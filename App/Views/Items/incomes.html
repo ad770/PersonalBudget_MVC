@@ -8,23 +8,11 @@
 <div class="budget_panel p-2 d-flex justify-content-center ">
     <div class="row col-10 col-sm-10 col-md-8 col-lg-6 col-xlg=6 m-0 p-0  border rounded-3 text-dark">
         <form action="/items/newIncome" method="POST">
-            <!-- <?php
-            if (isset($_SESSION['successful_submit'])) {
-                echo "<div id='hide_message' class='row col-9 p-2 mx-auto my-2 rounded-pill alert alert-success text-center col-3 justify-content-center center' role='alert'> Przychód został poprawnie dodany!</div>";
-                unset($_SESSION['successful_submit']);
-            }
-            ?> -->
             <div class="row w-75 mx-auto my-2 mt-3">
                 <label for="income_value"></label>
                 <input type="number" step="0.01" min="0" class="rounded-pill" name="income_value" id="income_value"
                     placeholder="100,00 zł" value="{{income.income_value}}" required>
             </div>
-            <!-- <?php
-            if (isset($_SESSION['e_income_value'])) {
-                echo '<div class="error">' . $_SESSION['e_income_value'] . '</div>';
-                unset($_SESSION['e_income_value']);
-            }
-            ?> -->
             <div class="row w-75 mx-auto my-2">
                 <label for="income_date"></label>
                 <input type="date" class="rounded-pill" name="income_date" id="income_date"
@@ -34,14 +22,9 @@
                 <label for="income_cat"></label>
                 <select name="income_cat" id="income_cat" class="rounded-pill" value="{{income.income_cat}}">
                     <option disabled selected>Wybierz kategorię przychodu</option>
-                    <option value="{{categories[0].id}}">{{categories[0].name}}</option>
-                    <option value="{{categories[1].id}}">{{categories[1].name}}</option>
-                    <option value="{{categories[2].id}}">{{categories[2].name}}</option>
-                    <option value="{{categories[3].id}}">{{categories[3].name}}</option>
-
-                    % foreach ($categories as $category)
-                    <option value="{{category.id}}">{{ category.name }}</option>
-                    % endforeach
+                    {% for category in incomeCategories %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="row w-75 mx-auto my-2">

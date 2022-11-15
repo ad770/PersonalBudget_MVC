@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Income;
+use \App\Models\Expense;
 use \App\Auth;
 use App\Models\RememberedLogin;
 use \App\Flash;
@@ -39,14 +40,8 @@ class Items extends Authenticated
     {
         $categories = Income::getIncomeCategories();
         View::renderTemplate('Items/incomes.html', [
-            'categories' => $categories
+            'incomeCategories' => $categories
         ]);
-        // Funkcja wypisuje poprawnie pobrane dane z bazy danych
-        // Nie wyświetla opcji na liście wyboru kategorii w incomes.html 
-        // Błąd z pętlą foreach w incomes.html line 40!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        foreach ($categories as $category) {
-            var_dump($category->name);
-        };
     }
 
     public function newIncomeAction()
@@ -69,12 +64,25 @@ class Items extends Authenticated
      */
     public function expensesAction()
     {
-        View::renderTemplate('Items/expenses.html');
+        $categories = Expense::getExpenseCategories();
+        $payments = Expense::getPaymentCategories();
+        View::renderTemplate('Items/expenses.html', [
+            'expenseCategories' => $categories,
+            'paymentCategories' => $payments
+        ]);
     }
 
-    public function addExpenseAction()
+    public function newExpenseAction()
     {
-        View::renderTemplate('Items/expenses.html');
+        $expense = new Expense($_POST);
+        if ($expense->addExpense()) {
+            Flash::addMessage('Wydatek poprawnie dodano!');
+            $this->redirect('/Items/expenses');
+        } else {
+            View::renderTemplate('Items/expenses.html', [
+                'expense' => $expen6se
+            ]);
+        }
     }
 
     /**
