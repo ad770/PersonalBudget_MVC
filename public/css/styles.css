@@ -1,9 +1,6 @@
 body {
-    margin-top: 3em;
-}
-
-body {
-    background-image: url('/public/img/wallpaper.jpg');
+    background-color: whitesmoke;
+    background-image: url('public/img/wallpaper.jpg');
     background-attachment: fixed;
     background-size: cover;
     background-position: 14% 84%;
@@ -18,16 +15,6 @@ body {
     color: red;
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-
-
-h3 {
-    background-color: RGBa(229, 226, 217, 0.8);
-}
-
-h2 {
-    background-color: RGBa(229, 226, 217, 0.8);
 }
 
 #table_detail {

@@ -31,7 +31,6 @@ class Auth
             if ($user->rememberLogin()) {
 
                 setcookie('remember_me', $user->remember_token, $user->expiry_timestamp, '/');
-                
             }
         }
     }
@@ -87,6 +86,11 @@ class Auth
         return $_SESSION['return_to'] ?? '/';
     }
 
+    public static function isLoggedIn()
+    {
+        return (isset($_SESSION['user_id']));
+    }
+
     /**
      * Get the current logged-in user, from the session or the remember-me cookie
      *
@@ -97,7 +101,6 @@ class Auth
         if (isset($_SESSION['user_id'])) {
 
             return User::findByID($_SESSION['user_id']);
-
         } else {
 
             return static::loginFromRememberCookie();
@@ -118,7 +121,7 @@ class Auth
             $remembered_login = RememberedLogin::findByToken($cookie);
 
             //if ($remembered_login) {
-            if ($remembered_login && ! $remembered_login->hasExpired()) {
+            if ($remembered_login && !$remembered_login->hasExpired()) {
 
                 $user = $remembered_login->getUser();
 
