@@ -6,6 +6,7 @@ use \Core\View;
 use \App\Models\Income;
 use \App\Auth;
 use App\Models\RememberedLogin;
+use \App\Flash;
 
 
 
@@ -52,6 +53,7 @@ class Items extends Authenticated
     {
         $income = new Income($_POST);
         if ($income->addIncome()) {
+            Flash::addMessage('Przychód poprawnie dodano!');
             $this->redirect('/Items/incomes');
         } else {
             View::renderTemplate('Items/incomes.html', [

@@ -47,7 +47,7 @@ class Income extends \Core\Model
             $user_id = Auth::getUser();
             $db = static::getDB();
             $stmt = $db->prepare($sql);
-            $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_STR);
+            $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
             $stmt->bindValue(':income_cat', $this->income_cat, PDO::PARAM_STR);
             $stmt->bindValue(':income_value', $this->income_value, PDO::PARAM_STR);
             $stmt->bindValue(':income_date', $this->income_date, PDO::PARAM_STR);
