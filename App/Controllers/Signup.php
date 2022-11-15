@@ -34,9 +34,12 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
 
         if ($user->save()) {
+            $user_id = User::findByEmail($user->email);
 
             //$user->sendActivationEmail();
-            Income::createIncomeCategoriesForNewUser($user);
+
+            Income::createIncomeCategoriesForNewUser($user_id->id);
+            // Expense::createExpenseCategoriesForNewUser($user_id->id);
 
             $this->redirect('/signup/success');
         } else {
