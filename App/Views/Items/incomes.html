@@ -34,13 +34,14 @@
                 <label for="income_cat"></label>
                 <select name="income_cat" id="income_cat" class="rounded-pill" value="{{income.income_cat}}">
                     <option disabled selected>Wybierz kategorię przychodu</option>
-                    <!-- <option>Sprzedaż</option>
-                    <option>Inne</option> -->
-                    % foreach (categories as category) %
+                    <option value="{{categoies[0].id}}">{{categories[0].name}}</option>
+                    <option value="{{categoies[1].id}}">{{categories[1].name}}</option>
+                    <option value="{{categoies[2].id}}">{{categories[2].name}}</option>
+                    <option value="{{categoies[3].id}}">{{categories[3].name}}</option>
+
+                    % foreach (categories as category) : %
                     <option>{{ category.name }}</option>
                     % endforeach
-                    <option>Sprzedaż</option>
-                    <option>Inne</option>
                 </select>
             </div>
             <div class="row w-75 mx-auto my-2">
@@ -54,7 +55,6 @@
                 </div>
             </div>
         </form>
-
     </div>
 </div>
 

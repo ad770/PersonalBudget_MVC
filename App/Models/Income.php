@@ -59,7 +59,7 @@ class Income extends \Core\Model
 
     public static function getIncomeCategories()
     {
-        $sql = 'SELECT name FROM incomes_category_assigned_to_users
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users
                 WHERE user_id = :user_id';
         $user_id = Auth::getUser();
         $db = static::getDB();
@@ -73,8 +73,6 @@ class Income extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    // Funckaj do przepisywania defaultowych kategorii przychodów
-    // Nie odnajduje id wewnątrz zmiennej $user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public static function createIncomeCategoriesForNewUser($user_id)
     {
         $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) 
