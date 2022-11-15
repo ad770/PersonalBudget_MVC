@@ -44,8 +44,7 @@ class Items extends Authenticated
         // Nie wyświetla opcji na liście wyboru kategorii w incomes.html 
         // Błąd z pętlą foreach w incomes.html line 40!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         foreach ($categories as $category) {
-            echo ($category->name);
-            echo "<br>";
+            var_dump($category->name);
         };
     }
 
