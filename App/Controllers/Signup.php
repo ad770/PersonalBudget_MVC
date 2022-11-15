@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\User;
 use \App\Models\Income;
+use \App\Models\Expense;
 
 /**
  * Signup controller
@@ -39,7 +40,8 @@ class Signup extends \Core\Controller
             //$user->sendActivationEmail();
 
             Income::createIncomeCategoriesForNewUser($user_id->id);
-            // Expense::createExpenseCategoriesForNewUser($user_id->id);
+            Expense::createExpenseCategoriesForNewUser($user_id->id);
+            Expense::createPaymentCategoriesForNewUser($user_id->id);
 
             $this->redirect('/signup/success');
         } else {
