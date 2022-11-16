@@ -27,7 +27,7 @@
         {% block subnav %}
         {% endblock %}
         {% for message in flash_messages %}
-        <div class="alert alert-{{ message.type }}">
+        <div class="alert alert-{{ message.type }} col-6 text-center mx-auto">
             {{ message.body }}
         </div>
         {% endfor %}
