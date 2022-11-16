@@ -12,7 +12,7 @@
             <div class="balance_content d-flex flex-wrap justify-content-center">
                 <form method="POST" id="myForm" name="myForm">
                     <select class="d-flex mt-3 align-self-center mx-auto text-center rounded-pill p-1" name="balance"
-                        id="time_option" onChange="form.submit()">
+                        id="time_option">
                         <option value="current_month">
                             <!-- <?php if (isset($_POST['balance']) &&
                             $_POST['balance']=='current_month' ) { echo 'selected= "selected"' ; } ?>>-->Bieżący
@@ -87,8 +87,8 @@
             <div class="row d-flex flex-wrap">
                 <table class="charts text-center">
                     <tr>
-                        <div id="income_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-                        <div id="expense_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+                        <!-- <div id="income_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+                        <div id="expense_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div> -->
                     </tr>
                 </table>
             </div>
@@ -138,12 +138,28 @@
                                     $income_cat_result = $get_income_cat->fetch(PDO::FETCH_ASSOC);
                                 ?> -->
                                 <tr id="main_table_row">
+                                    {% for income in incomesData}
+                                    <td>{{income.amount}}</td>
+                                    <td>{{income.date_of_income}}</td>
+
                                     <!-- <?php
                                         echo "<td>" . $income_result['amount'] . "</td>";
                                         echo "<td>" . $income_result['date_of_income'] . "</td>";
                                         ?> -->
                                 </tr>
                                 <tr class="hidden_tr">
+                                    <td colspan=2>
+                                        <p>
+                                            Kategoria: {{income.cat}}
+                                            {% if {{income.income_comment}} != ""}
+                                            Uwagi: {{income.comment}}
+                                        </p>
+                                    </td>
+                                    {% else %}
+                                    </p>
+                                    </td>
+                                    {% endif %}
+                                    {% endfor %}
                                     <!-- <?php
                                         echo "<td colspan=2><p>" . "Kategoria: " . $income_cat_result['name'];
                                         if ($income_result['income_comment'] != "") {
