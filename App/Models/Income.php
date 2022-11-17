@@ -101,12 +101,12 @@ class Income extends \Core\Model
         }
 
         //Category
-        if (empty($this->income_cat)) {
-            $this->errors[] = 'Wybierz kategorię przychodu';
+        if ($this->income_cat == '') {
+            $this->errors[] = 'Nie wybrano kategorii przychodu';
         }
 
         //Date of income
-        if (empty($this->income_date)) {
+        if ($this->income_date == '') {
             $this->errors[] = 'Wybierz datę przychodu';
         }
     }

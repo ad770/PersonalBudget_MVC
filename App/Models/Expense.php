@@ -28,9 +28,9 @@ class Expense extends \Core\Model
      *
      * @return void
      */
-    public function __construct($incomeData = [])
+    public function __construct($data = [])
     {
-        foreach ($incomeData as $key => $value) {
+        foreach ($data as $key => $value) {
             $this->$key = $value;
         };
     }
@@ -48,7 +48,7 @@ class Expense extends \Core\Model
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
             $stmt->bindValue(':expense_cat', $this->expense_cat, PDO::PARAM_STR);
-            $stmt->bindValue(':payment_cat', $this->payment_cat, PDO::PARAM_STR);
+            $stmt->bindValue(':payment_cat', $this->expense_payment, PDO::PARAM_STR);
             $stmt->bindValue(':expense_value', $this->expense_value, PDO::PARAM_STR);
             $stmt->bindValue(':expense_date', $this->expense_date, PDO::PARAM_STR);
             $stmt->bindValue(':expense_comment', $this->expense_comment, PDO::PARAM_STR);
@@ -130,17 +130,17 @@ class Expense extends \Core\Model
         }
 
         //Expense category
-        if (empty($this->expense_cat)) {
+        if ($this->expense_cat == '') {
             $this->errors[] = 'Wybierz kategorię wydatku';
         }
 
         //Payment method
-        if (empty($this->payment_cat)) {
+        if ($this->expense_payment == '') {
             $this->errors[] = 'Wybierz metodę płatności';
         }
 
         //Date of expense
-        if (empty($this->expense_date)) {
+        if ($this->expense_date == '') {
             $this->errors[] = 'Wybierz datę wydatku';
         }
     }

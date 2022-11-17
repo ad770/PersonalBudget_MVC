@@ -19,18 +19,6 @@ use \App\Flash;
 //class Items extends \Core\Controller
 class Items extends Authenticated
 {
-    // /**
-    //  * Before filter - called before each action method
-    //  *
-    //  * @return void
-    //  */
-    // protected function before()
-    // {
-    //     parent::before();
-
-    //     $this->user = Auth::getUser();
-    // }
-
     /**
      * Incomes items
      *
@@ -47,10 +35,13 @@ class Items extends Authenticated
     public function newIncomeAction()
     {
         $income = new Income($_POST);
+
         if ($income->addIncome()) {
             Flash::addMessage('Przychód poprawnie dodano!');
             $this->redirect('/Items/incomes');
         } else {
+            Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
+
             View::renderTemplate('Items/incomes.html', [
                 'income' => $income
             ]);
@@ -79,8 +70,10 @@ class Items extends Authenticated
             Flash::addMessage('Wydatek poprawnie dodano!');
             $this->redirect('/Items/expenses');
         } else {
+            Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
+
             View::renderTemplate('Items/expenses.html', [
-                'expense' => $expen6se
+                'expense' => $expense
             ]);
         }
     }
