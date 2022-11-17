@@ -80,7 +80,7 @@ class Items extends Authenticated
             $this->redirect('/Items/expenses');
         } else {
             View::renderTemplate('Items/expenses.html', [
-                'expense' => $expen6se
+                'expense' => $expense
             ]);
         }
     }
