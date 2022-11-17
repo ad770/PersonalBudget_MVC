@@ -130,6 +130,36 @@ class Balance extends \Core\Model
         return $stmt->execute();
     }
 
+
+    public static function getSumOfIncome()
+    {
+        $sql = 'SELECT incomes_category_assigned_to_users.name, SUM(incomes.amount) FROM incomes_category_assigned_to_users, incomes WHERE incomes.user_id = :user_id 
+        AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
+        GROUP BY incomes_category_assigned_to_users.name';
+        $user_id = Auth::getUser();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $stmt->execute();
+    }
+
+    public static function getSumOfExpense()
+    {
+        $sql = 'SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) FROM expenses_category_assigned_to_users, expenses WHERE expenses.user_id = :user_id 
+        AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
+        GROUP BY expenses_category_assigned_to_users.name';
+        $user_id = Auth::getUser();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $stmt->execute();
+    }
     /**
      * Validate current property values, adding valiation error messages to the errors array property
      *

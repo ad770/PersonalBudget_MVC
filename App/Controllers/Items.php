@@ -94,10 +94,14 @@ class Items extends Authenticated
     {
         $expensesData = Balance::getExpenses();
         $incomesData = Balance::getIncomes();
+        $expensesChartData = Balance::getSumOfExpense();
+        $incomesChartData = Balance::getSumOfIncome();
 
         View::renderTemplate('Items/balance.html', [
             'expensesData' => $expensesData,
-            'incomesData' => $incomesData
+            'incomesData' => $incomesData,
+            'expensesChartData' => $expensesChartData,
+            'incomesChartData' => $incomesChartData
         ]);
     }
 
@@ -120,4 +124,39 @@ class Items extends Authenticated
     {
         echo "show action";
     }
+
+    // public JsonResult AjaxMethod()
+    // {
+    //     string query = "SELECT ShipCity, COUNT(orderid) TotalOrders";
+    //     query += " FROM Orders WHERE ShipCountry = 'USA' GROUP BY ShipCity";
+    //     string constr = ConfigurationManager.ConnectionStrings["Constring"].ConnectionString;
+    //     List<object> chartData = new List<object>();
+    //     chartData.Add(new object[]
+    //                     {
+    //                         "ShipCity", "TotalOrders"
+    //                     });
+    //     using (SqlConnection con = new SqlConnection(constr))
+    //     {
+    //         using (SqlCommand cmd = new SqlCommand(query))
+    //         {
+    //             cmd.CommandType = CommandType.Text;
+    //             cmd.Connection = con;
+    //             con.Open();
+    //             using (SqlDataReader sdr = cmd.ExecuteReader())
+    //             {
+    //                 while (sdr.Read())
+    //                 {
+    //                     chartData.Add(new object[]
+    //                     {
+    //                         sdr["ShipCity"], sdr["TotalOrders"]
+    //                     });
+    //                 }
+    //             }
+
+    //             con.Close();
+    //         }
+    //     }
+
+    //     return Json(chartData);
+    // }
 }

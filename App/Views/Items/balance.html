@@ -4,6 +4,89 @@
 
 {% block body %}
 
+{% block footer %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawIncomeChart);
+    google.setOnLoadCallback(drawExpenseChart);
+
+    // function drawIncomeChart() {
+    // let income_chart = new google.visualization.BarChart(document.getElementById('income_chart'));
+    // income_chart.draw(incomeChartData, incomeChartOptions);
+    // }
+
+    // function drawIncomeChart() {
+    //     let incomeChartData = google.visualization.arrayToDataTable([
+    //         ['Kategoria przychodów', 'Suma przychodów', {
+    //             role: 'annotation'
+    //         }],
+
+    //          {% for expenseChartData in expensesChartData %}
+    //          ['{{expenseChartData.name}}', {{ expenseChartData.sum(expenseAmount) }}, '{{expenseChartData.sum(expenseAmount)}}'],
+    //          {% endfor %}
+    //     ]);
+
+    // let incomeChartOptions = {
+    //     title: 'Analiza przychodów',
+    //     titlePosition: 'out',
+    //     legend: {
+    //         position: 'none',
+    //     },
+    //     hAxis: {
+    //         textPosition: 'none'
+    //     },
+    //     backgroundColor: 'transparent'
+    // };
+
+    // let income_chart = new google.visualization.BarChart(document.getElementById('income_chart'));
+    // income_chart.draw(incomeChartData, incomeChartOptions);
+    // }
+
+    function drawExpenseChart() {
+        let expenseChartData = google.visualization.arrayToDataTable([
+            ['Kategoria wydatków', 'Suma wydatków', {
+                role: 'annotation'
+            }],
+
+            ['Transport', 300, '300'],
+            ['Rachunki', 1000, '1000'],
+        ]);
+
+        let expenseChartOptions = {
+            title: 'Analiza wydatków',
+            titlePosition: 'out',
+            legend: {
+                position: 'none',
+            },
+            hAxis: {
+                direction: -1,
+                textPosition: 'none'
+            },
+            backgroundColor: 'transparent'
+        };
+
+        let expense_chart = new google.visualization.BarChart(document.getElementById('expense_chart'));
+        expense_chart.draw(expenseChartData, expenseChartOptions);
+    }
+</script>
+<script>
+    $(function () {
+        $("td[colspan=2]").find("p").hide();
+        $("table").click(function (event) {
+            event.stopPropagation();
+            var $target = $(event.target);
+            if ($target.closest("tr").attr("colspan") > 1) {
+                $target.slideUp();
+            } else {
+                $target.closest("tr").next().find("p").slideToggle();
+            }
+        });
+    });
+</script>
+{% endblock %}
+
 <h1 class="text-center">Bilans</h1>
 
 <div class="container">
@@ -86,8 +169,8 @@
             <div class="row d-flex flex-wrap">
                 <table class="charts text-center">
                     <tr>
-                        <!-- <div id="income_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-                        <div id="expense_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div> -->
+                        <div id="income_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+                        <div id="expense_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
                     </tr>
                 </table>
             </div>
@@ -96,24 +179,14 @@
             <div id="wrapper" class="show_balance">
                 <div class="row text-center col-4 mx-auto">
                     <!-- Wartość TOTAL z danego okresu rozliczeniowego -->
-                    <!-- <?php
-                    $get_income_data = $db->prepare("SELECT SUM(amount) AS incomes FROM incomes WHERE user_id='$user_id' and date_of_income between '$begin_date' and '$end_date'");
-                    $get_income_data->execute();
-                    $income_row = $get_income_data->fetch(PDO::FETCH_ASSOC);
 
-                    $get_expense_data = $db->prepare("SELECT SUM(amount) AS expenses FROM expenses WHERE user_id='$user_id' and date_of_expense between '$begin_date' and '$end_date'");
-                    $get_expense_data->execute();
-                    $expense_row = $get_expense_data->fetch(PDO::FETCH_ASSOC);
-
-                    $month_balance = $income_row['incomes'] - $expense_row['expenses'];
-                    ?> -->
+                    <!-- $month_balance = $income_row['incomes'] - $expense_row['expenses']; -->
                     <!-- <h3 <?php if ($month_balance < 0) { echo 'class= "text-center text-danger"' ; } else {
                         echo 'class= "text-center text-success"' ; } ?>>
                         <?php echo "Total: " . $month_balance . " zł";
                                 ?> -->
                     </h3>
-                    <!-- /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/- -->
-                    <!-- Tabele z historią trasankcji SQL -->
+
                     <h2 class="mt-4 w-30">Historia transakcji</h2>
                 </div>
                 <div class="row text-center">
