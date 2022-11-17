@@ -35,9 +35,12 @@ class Balance extends \Core\Model
         };
     }
 
-    public function getIncomes()
+    public static function getIncomes()
     {
-        $sql = 'SELECT incomes_category_assigned_to_users.name, incomes.income_category_assigned_to_user_id, incomes.amount, incomes.date_of_income, incomes.income_comment FROM incomes INNER JOIN incomes_category_assigned_to_users ON incomes.id=incomes_category_assigned_to_users.id WHERE incomes.user_id = :user_id';
+        $sql = 'SELECT incomes_category_assigned_to_users.name, incomes.income_category_assigned_to_user_id, incomes.amount, incomes.date_of_income, incomes.income_comment 
+                FROM incomes, incomes_category_assigned_to_users
+                WHERE incomes.user_id = :user_id 
+                AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id';
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -47,12 +50,16 @@ class Balance extends \Core\Model
 
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
 
-    public function getExpenses()
+    public static function getExpenses()
     {
-        $sql = 'SELECT payment_methods_assigned_to_users.name, expenses_category_assigned_to_users.name, expenses.expense_category_assigned_tp_user_id, expenses.amount, expenses.date_of_expense, expenses.expense_comment FROM payment_methods_assigned_to_users, incomes_category_assigned_to_users, incomes WHERE payment_methods_assigned_to_users.id = expenses.id AND expenses_category_assigned_to_users.id = expenses.id AND user_id = :user_id';
+        $sql = 'SELECT expenses_category_assigned_to_users.name, payment_methods_assigned_to_users.name, expenses.expense_category_assigned_to_user_id, expenses.payment_method_assigned_to_user_id, expenses.amount, expenses.date_of_expense, expenses.expense_comment 
+                FROM expenses, expenses_category_assigned_to_users, payment_methods_assigned_to_users
+                WHERE expenses.user_id = :user_id 
+                AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id 
+                AND expenses.payment_method_assigned_to_user_id = payment_methods_assigned_to_users.id';
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -62,7 +69,7 @@ class Balance extends \Core\Model
 
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
 
     public static function getExpenseCategoryName()

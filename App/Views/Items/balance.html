@@ -39,13 +39,12 @@
                                 class=" col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
                                 <label for="begin_date">Data początkowa</label>
                                 <input type="date" class="rounded-pill p-1 text-center" name="begin_date"
-                                    id="begin_date" onChange="form.submit()">
+                                    id="begin_date">
                             </div>
                             <div
                                 class=" col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
                                 <label for="end_date">Data końcowa</label>
-                                <input type="date" class="rounded-pill p-1 text-center" name="end_date" id="end_date"
-                                    onChange="form.submit()">
+                                <input type="date" class="rounded-pill p-1 text-center" name="end_date" id="end_date">
                             </div>
                         </div>
 
@@ -121,6 +120,7 @@
                     <div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
                         <div class="income_balance">
                             <div class='h2'>Przychody</div>
+
                             <table id="table_detail" class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>
@@ -128,50 +128,26 @@
                                         <th>Data</th>
                                     </tr>
                                 </thead>
-                                <!-- <?php
-                                $get_income_data = $db->prepare("SELECT * FROM incomes WHERE user_id='$user_id' and date_of_income between '$begin_date' and '$end_date' ORDER BY date_of_income ASC");
-                                $get_income_data->execute();
-                                while ($income_result = $get_income_data->fetch(PDO::FETCH_ASSOC)) {
-                                    $income_category_id = $income_result['income_category_assigned_to_user_id'];
-                                    $get_income_cat = $db->prepare("SELECT name FROM incomes_category_assigned_to_users WHERE id=$income_category_id");
-                                    $get_income_cat->execute();
-                                    $income_cat_result = $get_income_cat->fetch(PDO::FETCH_ASSOC);
-                                ?> -->
+                                {% for income in incomesData %}
                                 <tr id="main_table_row">
-                                    {% for income in incomesData}
                                     <td>{{income.amount}}</td>
                                     <td>{{income.date_of_income}}</td>
-
-                                    <!-- <?php
-                                        echo "<td>" . $income_result['amount'] . "</td>";
-                                        echo "<td>" . $income_result['date_of_income'] . "</td>";
-                                        ?> -->
                                 </tr>
                                 <tr class="hidden_tr">
                                     <td colspan=2>
                                         <p>
-                                            Kategoria: {{income.cat}}
-                                            {% if {{income.income_comment}} != ""}
-                                            Uwagi: {{income.comment}}
+                                            Kategoria: {{income.name}}
+                                            <br>
+                                            {% if income.income_comment is not empty %}
+                                            Uwagi: {{income.income_comment}}
                                         </p>
                                     </td>
                                     {% else %}
                                     </p>
                                     </td>
                                     {% endif %}
-                                    {% endfor %}
-                                    <!-- <?php
-                                        echo "<td colspan=2><p>" . "Kategoria: " . $income_cat_result['name'];
-                                        if ($income_result['income_comment'] != "") {
-                                            echo "<br> Uwagi: " . $income_result['income_comment'] . "</p></td>";
-                                        } else {
-                                            echo "</p></td>";
-                                        }
-                                        ?> -->
                                 </tr>
-                                <!-- <?php
-                                }
-                                ?> -->
+                                {% endfor %}
                             </table>
                         </div>
                     </div>
@@ -185,40 +161,26 @@
                                         <th>Data</th>
                                     </tr>
                                 </thead>
-                                <!-- <?php
-                                $get_expense_data = $db->prepare("SELECT * FROM expenses WHERE user_id='$user_id' and date_of_expense between '$begin_date' and '$end_date' ORDER BY date_of_expense ASC");
-                                $get_expense_data->execute();
-                                while ($expense_result = $get_expense_data->fetch(PDO::FETCH_ASSOC)) {
-                                    $expense_category_id = $expense_result['expense_category_assigned_to_user_id'];
-                                    $get_expense_cat = $db->prepare("SELECT name FROM expenses_category_assigned_to_users WHERE id=$expense_category_id");
-                                    $get_expense_cat->execute();
-                                    $expense_cat_result = $get_expense_cat->fetch(PDO::FETCH_ASSOC);
-                                    $payment_method_id = $expense_result['payment_method_assigned_to_user_id'];
-                                    $get_payment_id = $db->prepare("SELECT name FROM payment_methods_assigned_to_users WHERE id='$payment_method_id'");
-                                    $get_payment_id->execute();
-                                    $payment_id_result = $get_payment_id->fetch(PDO::FETCH_ASSOC);
-
-                                ?> -->
+                                {% for expense in expensesData %}
                                 <tr id="main_table_row">
-                                    <!-- <?php
-                                        echo "<td>" . $expense_result['amount'] . "</td>";
-                                        echo "<td>" . $expense_result['date_of_expense'] . "</td>";
-                                        ?> -->
+                                    <td>{{expense.name}}</td>
+                                    <td>{{expense.date_of_expense}}</td>
                                 </tr>
                                 <tr class="hidden_tr">
-                                    <!-- <?php
-                                        echo "<td colspan=2><p>" . "Kategoria: " . $expense_cat_result['name'] . "<br>";
-                                        echo "Metoda: " . $payment_id_result['name'];
-                                        if ($expense_result['expense_comment'] != "") {
-                                            echo "<br> Uwagi: " . $expense_result['expense_comment'] . "</p></td>";
-                                        } else {
-                                            echo "</p></td>";
-                                        }
-                                        ?> -->
+                                    <td colspan=2>
+                                        <p>
+                                            Kategoria: {{expense.name}}
+                                            <br>
+                                            {% if expense.expense is not empty %}
+                                            Uwagi: {{expense.expense_comment}}
+                                        </p>
+                                    </td>
+                                    {% else %}
+                                    </p>
+                                    </td>
+                                    {% endif %}
                                 </tr>
-                                <!-- <?php
-                                }
-                                ?> -->
+                                {% endfor %}
                             </table>
                         </div>
                     </div>

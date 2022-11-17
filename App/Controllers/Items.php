@@ -5,10 +5,10 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Income;
 use \App\Models\Expense;
+use App\Models\Balance;
 use \App\Auth;
 use App\Models\RememberedLogin;
 use \App\Flash;
-
 
 
 /**
@@ -92,7 +92,13 @@ class Items extends Authenticated
      */
     public function balanceAction()
     {
-        View::renderTemplate('Items/balance.html');
+        $expensesData = Balance::getExpenses();
+        $incomesData = Balance::getIncomes();
+
+        View::renderTemplate('Items/balance.html', [
+            'expensesData' => $expensesData,
+            'incomesData' => $incomesData
+        ]);
     }
 
     /**
