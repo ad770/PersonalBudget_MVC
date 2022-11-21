@@ -6,261 +6,212 @@
 
 {% block footer %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawIncomeChart);
     google.setOnLoadCallback(drawExpenseChart);
 
-    // function drawIncomeChart() {
-    // let income_chart = new google.visualization.BarChart(document.getElementById('income_chart'));
-    // income_chart.draw(incomeChartData, incomeChartOptions);
-    // }
+    function drawIncomeChart() {
+        const incomeChartData = google.visualization.arrayToDataTable([
+            ['Kategoria przychodów', 'Suma przychodów', {
+                role: 'annotation'
+            }],
 
-    // function drawIncomeChart() {
-    //     let incomeChartData = google.visualization.arrayToDataTable([
-    //         ['Kategoria przychodów', 'Suma przychodów', {
-    //             role: 'annotation'
-    //         }],
+            {% for income in incomesChartData %}
+    ['{{income.name}}', {{ income.incomeSum }}, '{{income.incomeSum}}'],
+        {% endfor %}
+                    ]);
+    const incomeChartOption = {
+        title: 'Analiza przychodów',
+        titlePosition: 'out',
+        legend: {
+            position: 'none',
+        },
+        hAxis: {
+            textPosition: 'none'
+        },
+        backgroundColor: 'transparent'
+    };
 
-    //          {% for expenseChartData in expensesChartData %}
-    //          ['{{expenseChartData.name}}', {{ expenseChartData.sum(expenseAmount) }}, '{{expenseChartData.sum(expenseAmount)}}'],
-    //          {% endfor %}
-    //     ]);
-
-    // let incomeChartOptions = {
-    //     title: 'Analiza przychodów',
-    //     titlePosition: 'out',
-    //     legend: {
-    //         position: 'none',
-    //     },
-    //     hAxis: {
-    //         textPosition: 'none'
-    //     },
-    //     backgroundColor: 'transparent'
-    // };
-
-    // let income_chart = new google.visualization.BarChart(document.getElementById('income_chart'));
-    // income_chart.draw(incomeChartData, incomeChartOptions);
-    // }
+    const incomeChart = new google.visualization.BarChart(document.getElementById('incomeChart'));
+    incomeChart.draw(incomeChartData, incomeChartOptions);
+        }
 
     function drawExpenseChart() {
         let expenseChartData = google.visualization.arrayToDataTable([
             ['Kategoria wydatków', 'Suma wydatków', {
                 role: 'annotation'
             }],
+            {% for expense in expensesChartData %}
+    ['{{expense.name}}', {{ expense.expenseSum }}, '{{expense.expenseSum}}'],
+        {% endfor %}
+                ]);
 
-            ['Transport', 300, '300'],
-            ['Rachunki', 1000, '1000'],
-        ]);
+    let expenseChartOptions = {
+        title: 'Analiza wydatków',
+        titlePosition: 'out',
+        legend: {
+            position: 'none',
+        },
+        hAxis: {
+            direction: -1,
+            textPosition: 'none'
+        },
+        backgroundColor: 'transparent'
+    };
 
-        let expenseChartOptions = {
-            title: 'Analiza wydatków',
-            titlePosition: 'out',
-            legend: {
-                position: 'none',
-            },
-            hAxis: {
-                direction: -1,
-                textPosition: 'none'
-            },
-            backgroundColor: 'transparent'
-        };
-
-        let expense_chart = new google.visualization.BarChart(document.getElementById('expense_chart'));
-        expense_chart.draw(expenseChartData, expenseChartOptions);
-    }
+    let expenseChart = new google.visualization.BarChart(document.getElementById('expenseChart'));
+    expenseChart.draw(expenseChartData, expenseChartOptions);
+        }
 </script>
-<script>
-    $(function () {
-        $("td[colspan=2]").find("p").hide();
-        $("table").click(function (event) {
-            event.stopPropagation();
-            var $target = $(event.target);
-            if ($target.closest("tr").attr("colspan") > 1) {
-                $target.slideUp();
-            } else {
-                $target.closest("tr").next().find("p").slideToggle();
-            }
-        });
-    });
-</script>
+
 {% endblock %}
 
 <h1 class="text-center">Bilans</h1>
 
+<div id="wrapper" class="show_balance">
+    <div class="row text-center col-4 mx-auto">
+        <!-- Wartość TOTAL z danego okresu rozliczeniowego -->
+        <!-- $month_balance = $income_row['incomes'] - $expense_row['expenses']; -->
+        <!-- <h3 
+                        <?php if ($month_balance < 0) { echo 'class= "text-center text-danger"' ; } else {
+                        echo 'class= "text-center text-success"' ; } ?>>
+                        <?php echo "Total: " . $month_balance . " zł";
+                                ?>
+                    </h3> -->
+        <h2 class="mt-4 w-30">Historia transakcji</h2>
+    </div>
+    <div class="row text-center">
+        <div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
+            <div class="income_balance">
+                <div class='h2'>Przychody</div>
+                <table id="table_detail" class='table table-bordered table-striped'>
+                    <thead>
+                        <tr>
+                            <th>Wartość PLN</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    {% set totalIncome = 0 %}
+                    {% for income in incomesData %}
+                    {% set totalIncome = totalIncome + income.amount %}
+                    <tr id="main_table_row">
+                        <td>{{income.amount}}</td>
+                        <td>{{income.date_of_income}}</td>
+                    </tr>
+                    <tr class="hidden_tr">
+                        <td colspan=2>
+                            <p>
+                                Kategoria: {{income.name}}
+                                <br>
+                                {% if income.income_comment is not empty %}
+                                Uwagi: {{income.income_comment}}
+                            </p>
+                        </td>
+                        {% else %}
+                        </p>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
+            <div class="expense_balance">
+                <div class='h2'>Wydatki</div>
+                <table id="table_detail" class='table table-bordered table-striped'>
+                    <thead>
+                        <tr>
+                            <th>Wartość PLN</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    {% set totalExpense = 0 %}
+                    {% for expense in expensesData %}
+                    {% set totalExpense = totalExpense + expense.amount %}
+                    <tr id="main_table_row">
+                        <td>{{expense.amount}}</td>
+                        <td>{{expense.date_of_expense}}</td>
+                    </tr>
+                    <tr class="hidden_tr">
+                        <td colspan=2>
+                            <p>
+                                Kategoria: {{expense.expense_cat}}
+                                <br>
+                                Metoda płatności: {{expense.payment_method}}
+                                <br>
+                                {% if expense.expense is not empty %}
+                                Uwagi: {{expense.expense_comment}}
+                            </p>
+                        </td>
+                        {% else %}
+                        </p>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block balance %}
+{% set balance = totalIncome - totalExpense %}
+<h2>{{balance}} PLN</h2>
+
+{% endblock %}
+
+{% block balanceCharts %}
 <div class="container">
     <div class="balance_panel mb-4">
         <div class="select_balance">
             <div class="balance_content d-flex flex-wrap justify-content-center">
-                <form method="POST" id="myForm" name="myForm">
-                    <select class="d-flex mt-3 align-self-center mx-auto text-center rounded-pill p-1" name="balance"
-                        id="time_option">
-                        <option value="current_month">
-                            <!-- <?php if (isset($_POST['balance']) &&
-                            $_POST['balance']=='current_month' ) { echo 'selected= "selected"' ; } ?>>-->Bieżący
-                            miesiąc
-                        </option>
-                        <option value="previous_month">
-                            <!-- <?php if (isset($_POST['balance']) &&
-                            $_POST['balance']=='previous_month' ) { echo 'selected= "selected"' ; } ?>>-->Poprzedni
-                            miesiąc
-                        </option>
-                        <option value="current_year">
-                            <!--<?php if (isset($_POST['balance']) &&
-                            $_POST['balance']=='current_year' ) { echo 'selected= "selected"' ; } ?>>-->Bieżący rok
-                        </option>
-                        <option value="undenify">
-                            <!-- <?php if (isset($_POST['balance']) && $_POST['balance']=='undenify' ) {
-                            echo 'selected= "selected"' ; } ?>> -->
-                            Niestandardowy
-                        </option>
+                <form action="/items/balance" method="POST" id="periodForm" name="periodForm">
+                    <select class="d-flex mt-3 align-self-center mx-auto text-center rounded-pill p-1"
+                        name="balanceDateOption" id="dateOption">
+                        <option selected value="currentMonth">Bieżący miesiąc</option>
+                        <option value="previousMonth">Poprzedni miesiąc</option>
+                        <option value="currentYear">Bieżący rok</option>
+                        <option value="undenify">Niestandardowy</option>
                     </select>
-                    <div id="choose_date">
+                    <div id="hiddenDate">
                         <div class="input-group justify-content-between">
                             <div
                                 class=" col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-                                <label for="begin_date">Data początkowa</label>
-                                <input type="date" class="rounded-pill p-1 text-center" name="begin_date"
-                                    id="begin_date">
+                                <label for="postBeginDate">Data początkowa</label>
+                                <input type="date" class="rounded-pill p-1 text-center" name="postBeginDate"
+                                    id="postBeginDate"
+                                    value="{{ beginDate|date_modify('first day of this month')|date('Y-m-d') }}">
                             </div>
                             <div
                                 class=" col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-                                <label for="end_date">Data końcowa</label>
-                                <input type="date" class="rounded-pill p-1 text-center" name="end_date" id="end_date">
+                                <label for="PostEndDate">Data końcowa</label>
+                                <input type="date" class="rounded-pill p-1 text-center" name="PostEndDate"
+                                    id="PostEndDate"
+                                    value="{{ endDate|date_modify('last day of this month')|date('Y-m-d') }}">
                             </div>
                         </div>
-
                     </div>
-                    <!-- <?php
-                    if (isset($_POST['balance'])) {
-                        $state = $_POST['balance'];
-                    } else {
-                        $begin_date = $begin_of_current_month;
-                        $end_date = $end_of_current_month;
-                        $state = "current_month";
-                    }
-
-                    switch ($state) {
-                        case "current_month":
-                            $begin_date = $begin_of_current_month;
-                            $end_date = $end_of_current_month;
-                            break;
-                        case "previous_month":
-                            $begin_date = $begin_of_previous_month;
-                            $end_date = $end_of_previous_month;
-                            break;
-                        case "current_year":
-                            $begin_date = $begin_of_current_year;
-                            $end_date = $end_of_current_year;
-                            break;
-                        case "undenify":
-                            $begin_date = $_POST['begin_date'];
-                            $end_date = $_POST['end_date'];
-
-                            break;
-                        default:
-                            break;
-                    }
-                    ?> -->
+                    <button class="btn btn-primary mt-2 w-50 rounded-pill">Zatwierdź</button>
                 </form>
             </div>
-            <!-- Wykresy -->
-            <div class="row d-flex flex-wrap">
-                <table class="charts text-center">
-                    <tr>
-                        <div id="income_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-                        <div id="expense_chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-                    </tr>
-                </table>
-            </div>
-            <!-- /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/- -->
-
-            <div id="wrapper" class="show_balance">
-                <div class="row text-center col-4 mx-auto">
-                    <!-- Wartość TOTAL z danego okresu rozliczeniowego -->
-
-                    <!-- $month_balance = $income_row['incomes'] - $expense_row['expenses']; -->
-                    <!-- <h3 <?php if ($month_balance < 0) { echo 'class= "text-center text-danger"' ; } else {
-                        echo 'class= "text-center text-success"' ; } ?>>
-                        <?php echo "Total: " . $month_balance . " zł";
-                                ?> -->
-                    </h3>
-
-                    <h2 class="mt-4 w-30">Historia transakcji</h2>
-                </div>
-                <div class="row text-center">
-                    <div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
-                        <div class="income_balance">
-                            <div class='h2'>Przychody</div>
-
-                            <table id="table_detail" class='table table-bordered table-striped'>
-                                <thead>
-                                    <tr>
-                                        <th>Wartość PLN</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-                                {% for income in incomesData %}
-                                <tr id="main_table_row">
-                                    <td>{{income.amount}}</td>
-                                    <td>{{income.date_of_income}}</td>
-                                </tr>
-                                <tr class="hidden_tr">
-                                    <td colspan=2>
-                                        <p>
-                                            Kategoria: {{income.name}}
-                                            <br>
-                                            {% if income.income_comment is not empty %}
-                                            Uwagi: {{income.income_comment}}
-                                        </p>
-                                    </td>
-                                    {% else %}
-                                    </p>
-                                    </td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
-                        <div class="expense_balance">
-                            <div class='h2'>Wydatki</div>
-                            <table id="table_detail" class='table table-bordered table-striped'>
-                                <thead>
-                                    <tr>
-                                        <th>Wartość PLN</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-                                {% for expense in expensesData %}
-                                <tr id="main_table_row">
-                                    <td>{{expense.name}}</td>
-                                    <td>{{expense.date_of_expense}}</td>
-                                </tr>
-                                <tr class="hidden_tr">
-                                    <td colspan=2>
-                                        <p>
-                                            Kategoria: {{expense.name}}
-                                            <br>
-                                            {% if expense.expense is not empty %}
-                                            Uwagi: {{expense.expense_comment}}
-                                        </p>
-                                    </td>
-                                    {% else %}
-                                    </p>
-                                    </td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-</div>
-</div>
-{% endblock %}
+        <div class="row d-flex flex-wrap">
+            <table class="charts text-center">
+                <tr>
+                    <div id="incomeChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+                    <div id="expenseChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+                </tr>
+            </table>
+        </div>
+        {% set balance = totalIncome - totalExpense %}
+        <h2>{{balance}} PLN</h2>
+
+        {% endblock %}

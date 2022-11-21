@@ -19,21 +19,19 @@
                             d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916l-7.5-5zM12.375 6v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1H.5z" />
                     </svg> System zarządzania budżetem osobisym</a>
             </div>
-            {% block nav %}
-            {% endblock %}
+            {% block nav %}{% endblock %}
     </nav>
 
     <div class="container">
-        {% block subnav %}
-        {% endblock %}
+        {% block subnav %}{% endblock %}
         {% for message in flash_messages %}
         <div class="alert alert-{{ message.type }} col-6 text-center mx-auto">
             {{ message.body }}
         </div>
         {% endfor %}
-
-        {% block body %}
-        {% endblock %}
+        {% block balance %}{% endblock %}
+        {% block balanceCharts %}{% endblock %}
+        {% block body %}{% endblock %}
 
     </div>
 
@@ -44,8 +42,32 @@
         $("document").ready(function () {
             setTimeout(function () {
                 $("div.alert").remove();
-            }, 5000); // 3 secs
-
+            }, 5000);
+        });
+    </script>
+    <script>
+        $(function () {
+            $("td[colspan=2]").find("p").hide();
+            $("table").click(function (event) {
+                event.stopPropagation();
+                var $target = $(event.target);
+                if ($target.closest("tr").attr("colspan") > 1) {
+                    $target.slideUp();
+                } else {
+                    $target.closest("tr").next().find("p").slideToggle();
+                }
+            });
+        });
+    </script>
+    <script>
+        // Skrypt, który ma za zadanie pokazać div'a z wkyborem daty jedynie przy wybranej funkcji 'Niestandardowy'
+        // Niestety nie działa.
+        $("#time_option").change(function () {
+            if ($(this).val() != "undenify") {
+                $('#choose_date').hide();
+            } else {
+                $('#choose_date').show();
+            }
         });
     </script>
     <footer class="page-footer fixed-bottom text-center bg-dark text-white">2022 &#169; Adrian Żuchowski</footer>
