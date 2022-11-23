@@ -37,7 +37,7 @@ class Expense extends \Core\Model
 
     public function addExpense()
     {
-        $this->validate();
+        // $this->validate();
 
         if (empty($this->errors)) {
 
@@ -48,7 +48,7 @@ class Expense extends \Core\Model
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
             $stmt->bindValue(':expense_cat', $this->expense_cat, PDO::PARAM_STR);
-            $stmt->bindValue(':payment_cat', $this->payment_cat, PDO::PARAM_STR);
+            $stmt->bindValue(':payment_cat', $this->expense_payment, PDO::PARAM_STR);
             $stmt->bindValue(':expense_value', $this->expense_value, PDO::PARAM_STR);
             $stmt->bindValue(':expense_date', $this->expense_date, PDO::PARAM_STR);
             $stmt->bindValue(':expense_comment', $this->expense_comment, PDO::PARAM_STR);

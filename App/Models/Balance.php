@@ -34,50 +34,54 @@ class Balance extends \Core\Model
         };
     }
 
-    public function prepare()
+    public function switchTime()
     {
         if (!isset($this->balanceDateOption)) {
             $this->balanceDateOption = 'current_month';
         }
+        $timePeriod = [];
         switch ($this->balanceDateOption) {
             default:
-            case 'current_month':
-                $this->beginDate = date('Y-m-d', strtotime('first day of this month'));
-                $this->endDate = date('Y-m-d', strtotime("last day of this month"));
+            case 'currentMonth':
+                $timePeriod['beginDate'] = date('Y-m-d', strtotime('first day of this month'));
+                $timePeriod['endDate'] = date('Y-m-d');
+                return $timePeriod;
                 break;
 
-            case 'previous_month':
-                $this->beginDate = date('Y-m-d', strtotime("first day of last month"));
-                $this->endDate = date('Y-m-d', strtotime("last day of last month"));
+            case 'previousMonth':
+                $timePeriod['beginDate'] = date('Y-m-d', strtotime("first day of last month"));
+                $timePeriod['endDate'] = date('Y-m-d', strtotime("last day of last month"));
+                return $timePeriod;
                 break;
 
-            case 'current_year':
-                $this->beginDate = date('Y-m-d', strtotime("first day of january"));
-                $this->endDate = date('Y-m-d', strtotime("last day of december"));
+            case 'currentYear':
+                $timePeriod['beginDate'] = date('Y-m-d', strtotime("first day of january"));
+                $timePeriod['endDate'] = date('Y-m-d');
+                return $timePeriod;
                 break;
 
             case 'undenify':
-                $this->beginDate = $_POST['postBeginDate'];
-                $this->endDate =  $_POST['postEndDate'];
-
-                if (!$this->endDate || !$this->beginDate) {
-                    return false;
-                }
+                $timePeriod['beginDate'] = $this->postBeginDate;
+                $timePeriod['endDate'] =  $this->postEndDate;
+                return $timePeriod;
                 break;
         }
-        return true;
+        return false;
     }
 
-    public static function getIncomes()
+    public static function getIncomes($selectedPeriod)
     {
         $sql = 'SELECT incomes_category_assigned_to_users.name, incomes.income_category_assigned_to_user_id, incomes.amount, incomes.date_of_income, incomes.income_comment 
                 FROM incomes, incomes_category_assigned_to_users
                 WHERE incomes.user_id = :user_id 
-                AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id';
+                AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
+                AND incomes.date_of_income BETWEEN :beginDate AND :endDate';
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
@@ -86,17 +90,20 @@ class Balance extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function getExpenses()
+    public static function getExpenses($selectedPeriod)
     {
         $sql = 'SELECT expenses_category_assigned_to_users.name as expense_cat, payment_methods_assigned_to_users.name as payment_method, expenses.expense_category_assigned_to_user_id, expenses.payment_method_assigned_to_user_id, expenses.amount, expenses.date_of_expense, expenses.expense_comment 
                 FROM expenses, expenses_category_assigned_to_users, payment_methods_assigned_to_users
                 WHERE expenses.user_id = :user_id 
                 AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id 
-                AND expenses.payment_method_assigned_to_user_id = payment_methods_assigned_to_users.id';
+                AND expenses.payment_method_assigned_to_user_id = payment_methods_assigned_to_users.id
+                AND expenses.date_of_expense BETWEEN :beginDate AND :endDate';
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
@@ -121,19 +128,6 @@ class Balance extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function createExpenseCategoriesForNewUser($user_id)
-    {
-        $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name) 
-                SELECT :user_id, name FROM expenses_category_default';
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
-        return $stmt->execute();
-    }
-
     public static function getPaymentCategories()
     {
         $sql = 'SELECT * FROM payment_methods_assigned_to_users
@@ -150,24 +144,8 @@ class Balance extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function createPaymentCategoriesForNewUser($user_id)
+    public static function getTotalIncome($selectedPeriod)
     {
-        $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name) 
-                SELECT :user_id, name FROM payment_methods_default';
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
-        return $stmt->execute();
-    }
-
-
-    public static function getTotalIncome()
-    {
-        // $beginDate = date('Y-m-d', strtotime('first day of this month'));
-        // $endDate = date('Y-m-d', strtotime('last day of this month'));
         $sql = 'SELECT incomes_category_assigned_to_users.name, SUM(incomes.amount) as incomeSum FROM incomes_category_assigned_to_users, incomes WHERE incomes.user_id = :user_id 
         AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
         AND incomes.date_of_income BETWEEN :beginDate AND :endDate
@@ -176,18 +154,16 @@ class Balance extends \Core\Model
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
-        $stmt->bindValue(':beginDate', $this->beginDate, PDO::PARAM_STR);
-        $stmt->bindValue(':endDate', $this->endDate, PDO::PARAM_STR);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         return $stmt->execute();
     }
 
-    public static function getTotalExpense()
+    public static function getTotalExpense($selectedPeriod)
     {
-        // $beginDate = date('Y-m-d', strtotime('first day of this month'));
-        // $endDate = date('Y-m-d', strtotime('last day of this month'));
         $sql = 'SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) as expenseSum FROM expenses_category_assigned_to_users, expenses WHERE expenses.user_id = :user_id 
         AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
         AND expenses.date_of_expense BETWEEN :beginDate AND :endDate
@@ -196,8 +172,8 @@ class Balance extends \Core\Model
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
-        $stmt->bindValue(':beginDate', $this->beginDate, PDO::PARAM_STR);
-        $stmt->bindValue(':endDate', $this->endDate, PDO::PARAM_STR);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 

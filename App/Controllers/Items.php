@@ -59,27 +59,14 @@ class Items extends Authenticated
 
     public function balanceAction()
     {
-        $balanceUndenify = new Balance($_POST);
-        if ($balanceUndenify->prepare()) {
-            var_dump($balanceUndenify);
+        $balancePeriod = new Balance($_POST);
+        if ($selectedPeriod = $balancePeriod->switchTime()) {
             View::renderTemplate('Items/balance.html', [
-                'expensesData' => Balance::getExpenses(),
-                'incomesData' => Balance::getIncomes(),
-                'expensesChartData' => Balance::getTotalExpense(),
-                'incomesChartData' => Balance::getTotalIncome()
+                'incomesData' => Balance::getIncomes($selectedPeriod),
+                'expensesData' => Balance::getExpenses($selectedPeriod),
+                'incomesChartData' => Balance::getTotalIncome($selectedPeriod),
+                'expensesChartData' => Balance::getTotalExpense($selectedPeriod)
             ]);
-        }
-    }
-
-    public function setDateAction()
-    {
-        $balanceUndenify = new Balance($_POST);
-        var_dump($balanceUndenify);
-        if ($balanceUndenify->prepare()) {
-            $this->balanceAction();
-        } else {
-            Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
-            $this->balanceAction();
         }
     }
 }
