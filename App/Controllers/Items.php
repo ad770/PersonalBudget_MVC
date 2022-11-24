@@ -13,7 +13,7 @@ class Items extends Authenticated
 {
     public function incomesAction()
     {
-        View::renderTemplate('Items/incomes.html', [
+        View::renderTemplate('Items/incomes.twig', [
             'incomeCategories' => Income::getIncomeCategories()
         ]);
     }
@@ -26,7 +26,7 @@ class Items extends Authenticated
             $this->redirect('/Items/incomes');
         } else {
             Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
-            View::renderTemplate('Items/incomes.html', [
+            View::renderTemplate('Items/incomes.twig', [
                 'incomeCategories' => Income::getIncomeCategories(),
                 'income' => $income
             ]);
@@ -35,7 +35,7 @@ class Items extends Authenticated
 
     public function expensesAction()
     {
-        View::renderTemplate('Items/expenses.html', [
+        View::renderTemplate('Items/expenses.twig', [
             'expenseCategories' => Expense::getExpenseCategories(),
             'paymentCategories' => Expense::getPaymentCategories()
         ]);
@@ -49,7 +49,7 @@ class Items extends Authenticated
             $this->redirect('/Items/expenses');
         } else {
             Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
-            View::renderTemplate('Items/expenses.html', [
+            View::renderTemplate('Items/expenses.twig', [
                 'expenseCategories' => Expense::getExpenseCategories(),
                 'paymentCategories' => Expense::getPaymentCategories(),
                 'expense' => $expense
@@ -61,7 +61,7 @@ class Items extends Authenticated
     {
         $balancePeriod = new Balance($_POST);
         if ($selectedPeriod = $balancePeriod->switchTime()) {
-            View::renderTemplate('Items/balance.html', [
+            View::renderTemplate('Items/balance.twig', [
                 'incomesData' => Balance::getIncomes($selectedPeriod),
                 'expensesData' => Balance::getExpenses($selectedPeriod),
                 'incomesChartData' => Balance::getTotalIncome($selectedPeriod),

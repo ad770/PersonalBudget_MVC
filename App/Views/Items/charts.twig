@@ -1,0 +1,46 @@
+  <script type="text/javascript">
+  google.charts.load("current", {packages: ["corechart"]});
+	google.charts.setOnLoadCallback(drawIncomeChart);
+	google.charts.setOnLoadCallback(drawExpenseChart);
+
+	function drawIncomeChart() {
+		const incomeChartData = google.visualization.arrayToDataTable([
+			['Kategoria przychodów', 'Suma przychodów', {role: 'annotation'}],
+        {% for income in incomesChartData %}
+          ['{{ income.name }}', {{ income.incomeSum }}, '{{ income.incomeSum }}'],
+        {% endfor %}
+		]);
+
+		const incomeChartOptions = {
+			title: 'Analiza przychodów',
+			titlePosition: 'out',
+			legend: {position: 'none'},
+			hAxis: {textPosition: 'none'},
+			backgroundColor: 'transparent'
+		};
+
+		const incomeChart = new google.visualization.BarChart(document.getElementById('incomeChart'));
+		incomeChart.draw(incomeChartData, incomeChartOptions);
+	}
+
+	function drawExpenseChart() 
+	{
+		const expenseChartData = google.visualization.arrayToDataTable([
+			['Kategoria wydatków', 'Suma wydatków', {role: 'annotation'}],
+        {% for expense in expensesChartData %}
+          ['{{ expense.name }}', {{expense.expenseSum}}, '{{ expense.expenseSum }}'],
+        {% endfor %}
+		]);
+
+		const expenseChartOptions = {
+			title: 'Analiza wydatków',
+			titlePosition: 'out',
+			legend: {position: 'none'},
+			hAxis: {direction: -1,textPosition: 'none'},
+			backgroundColor: 'transparent'
+		};
+
+		const expenseChart = new google.visualization.BarChart(document.getElementById('expenseChart'));
+		expenseChart.draw(expenseChartData, expenseChartOptions);
+	}
+	</script>

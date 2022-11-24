@@ -159,7 +159,9 @@ class Balance extends \Core\Model
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
-        return $stmt->execute();
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 
     public static function getTotalExpense($selectedPeriod)
@@ -177,7 +179,9 @@ class Balance extends \Core\Model
 
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
-        return $stmt->execute();
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
     /**
      * Validate current property values, adding valiation error messages to the errors array property
