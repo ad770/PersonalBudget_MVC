@@ -7,29 +7,32 @@
 {% block footer %}
   {% include "Items/charts.twig" %}
   <script>
-	$("#periodForm").onchange(function (e) {
-		e.preventDefault();
-	});
-	</script>
-  <script>
-	$("#periodForm").ready(function () {
-		if ($(this).val() != "undenify") {
-			$('#undenifyDate').hide();
-		} else {
-			$('#undenifyDate').show();
-		}
-	});
-	</script>
+      $(document).ready(function () {
+        $('#dateOption').change(function () {
+            if($(this).val() != 'undenify') {
+            $('#postBeginDate').prop('disabled', true);
+            $('#postEndDate').prop('disabled', true);
+            }
+          else {
+            $('#postBeginDate').prop('disabled', false);
+            $('#postEndDate').prop('disabled', false);
+          }
+        
+
+        });
+    });
+    </script>
 {% endblock %}
 {% block body %}
   <h1 class="text-center">--Bilans--</h1>
+  <p id="cont"> </p>
   <div class="container">
     <div class="balance_panel mb-4">
       <div class="select_balance">
         <div class="balance_content d-flex flex-wrap justify-content-center">
           <form action="/items/balance" method="POST" id="periodForm" name="periodForm">
             <select class="mt-3 w-100 text-center rounded-pill p-1" name="balanceDateOption" id="dateOption" onchange="form.submit()">
-              <option selected value="currentMonth">Bieżący miesiąc</option>
+              <option value="currentMonth">Bieżący miesiąc</option>
               <option value="previousMonth">Poprzedni miesiąc</option>
               <option value="currentYear">Bieżący rok</option>
               <option value="undenify">Niestandardowy</option>
@@ -37,12 +40,12 @@
             <div name="undenifyDate" id="undenifyDate">
               <div class="input-group justify-content-between">
                 <div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-                  <label for="postBeginDate">Data początkowa</label>
-                  <input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate|date_modify('first day of this month')|date('Y-m-d') }}" onchange="form.submit()" />
+                  <label class="text-center" for="postBeginDate">Data początkowa</label>
+                  <input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate }}" onchange="form.submit()" disabled/>
                 </div>
                 <div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-                  <label for="postEndDate">Data końcowa</label>
-                  <input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ now|date('Y-m-d') }}" onchange="form.submit()" />
+                  <label class="text-center" for="postEndDate">Data końcowa</label>
+                  <input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ endDate }}" onchange="form.submit()" disabled/>
                 </div>
               </div>
             </div>

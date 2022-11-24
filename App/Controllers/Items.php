@@ -60,12 +60,15 @@ class Items extends Authenticated
     public function balanceAction()
     {
         $balancePeriod = new Balance($_POST);
+        var_dump($balancePeriod);
         if ($selectedPeriod = $balancePeriod->switchTime()) {
             View::renderTemplate('Items/balance.twig', [
                 'incomesData' => Balance::getIncomes($selectedPeriod),
                 'expensesData' => Balance::getExpenses($selectedPeriod),
                 'incomesChartData' => Balance::getTotalIncome($selectedPeriod),
-                'expensesChartData' => Balance::getTotalExpense($selectedPeriod)
+                'expensesChartData' => Balance::getTotalExpense($selectedPeriod),
+                'beginDate' => $selectedPeriod['beginDate'],
+                'endDate' => $selectedPeriod['endDate']
             ]);
         }
     }

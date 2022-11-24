@@ -61,8 +61,9 @@ class Balance extends \Core\Model
                 break;
 
             case 'undenify':
-                $timePeriod['beginDate'] = $this->postBeginDate;
-                $timePeriod['endDate'] =  $this->postEndDate;
+                if (isset($this->postBeginDate) ? ($timePeriod['beginDate'] = $this->postBeginDate) : ($timePeriod['beginDate'] = date('Y-m-01')));
+                if (isset($this->postEndDate) ? ($timePeriod['endDate'] = $this->postEndDate) : ($timePeriod['endDate'] = date('Y-m-t')));
+
                 return $timePeriod;
                 break;
         }
