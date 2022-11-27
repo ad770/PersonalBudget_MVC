@@ -6,9 +6,9 @@
 	function drawIncomeChart() {
 		const incomeChartData = google.visualization.arrayToDataTable([
 			['Kategoria przychodów', 'Suma przychodów', {role: 'annotation'}],
-        {% for income in incomesChartData %}
-          ['{{ income.name }}', {{ income.incomeSum }}, '{{ income.incomeSum }}'],
-        {% endfor %}
+				{% for income in incomesChartData %}
+					['{{ income.name }}', {{ income.incomeSum }}, '{{ income.incomeSum }}'],
+				{% endfor %}
 		]);
 
 		const incomeChartOptions = {
@@ -22,14 +22,13 @@
 		const incomeChart = new google.visualization.BarChart(document.getElementById('incomeChart'));
 		incomeChart.draw(incomeChartData, incomeChartOptions);
 	}
-
 	function drawExpenseChart() 
 	{
 		const expenseChartData = google.visualization.arrayToDataTable([
 			['Kategoria wydatków', 'Suma wydatków', {role: 'annotation'}],
-        {% for expense in expensesChartData %}
-          ['{{ expense.name }}', {{expense.expenseSum}}, '{{ expense.expenseSum }}'],
-        {% endfor %}
+				{% for expense in expensesChartData %}
+					['{{ expense.name }}', {{expense.expenseSum}}, '{{ expense.expenseSum }}'],
+				{% endfor %}
 		]);
 
 		const expenseChartOptions = {

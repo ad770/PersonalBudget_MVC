@@ -145,7 +145,7 @@ class Balance extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function getTotalIncome($selectedPeriod)
+    public static function getIncomesForChart($selectedPeriod)
     {
         $sql = 'SELECT incomes_category_assigned_to_users.name, SUM(incomes.amount) as incomeSum FROM incomes_category_assigned_to_users, incomes WHERE incomes.user_id = :user_id 
         AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
@@ -165,12 +165,51 @@ class Balance extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function getTotalExpense($selectedPeriod)
+    public static function getExpensesForChart($selectedPeriod)
     {
         $sql = 'SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) as expenseSum FROM expenses_category_assigned_to_users, expenses WHERE expenses.user_id = :user_id 
         AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
         AND expenses.date_of_expense BETWEEN :beginDate AND :endDate
         GROUP BY expenses_category_assigned_to_users.name';
+        $user_id = Auth::getUser();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function getTotalincome($selectedPeriod)
+    {
+        $sql = 'SELECT SUM(incomes.amount) as incomeSum FROM incomes_category_assigned_to_users, incomes WHERE incomes.user_id = :user_id 
+        AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
+        AND incomes.date_of_income BETWEEN :beginDate AND :endDate';
+
+        $user_id = Auth::getUser();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+        $stmt->bindValue(':beginDate', $selectedPeriod['beginDate'], PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $selectedPeriod['endDate'], PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function getTotalExpense($selectedPeriod)
+    {
+        $sql = 'SELECT SUM(expenses.amount) as expenseSum FROM expenses_category_assigned_to_users, expenses WHERE expenses.user_id = :user_id 
+        AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
+        AND expenses.date_of_expense BETWEEN :beginDate AND :endDate';
         $user_id = Auth::getUser();
         $db = static::getDB();
         $stmt = $db->prepare($sql);

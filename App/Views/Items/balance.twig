@@ -6,50 +6,34 @@
 
 {% block footer %}
   {% include "Items/charts.twig" %}
-  <script>
-      $(document).ready(function () {
-        $('#dateOption').change(function () {
-            if($(this).val() != 'undenify') {
-            $('#postBeginDate').prop('disabled', true);
-            $('#postEndDate').prop('disabled', true);
-            }
-          else {
-            $('#postBeginDate').prop('disabled', false);
-            $('#postEndDate').prop('disabled', false);
-          }
-        
-
-        });
-    });
-    </script>
 {% endblock %}
 {% block body %}
-  <h1 class="text-center">--Bilans--</h1>
-  <p id="cont"> </p>
+  <h1 class="text-center">Twój bilans z wybranego okresu rozliczeniowego</h1>
+    {% set total = incomeSum[0].incomeSum - expenseSum[0].expenseSum %}
+  <h2 class="text-center {% if total < 0 %} text-danger {% else %} text-success {% endif %}" > {{total}} zł</h2>
   <div class="container">
     <div class="balance_panel mb-4">
       <div class="select_balance">
         <div class="balance_content d-flex flex-wrap justify-content-center">
           <form action="/items/balance" method="POST" id="periodForm" name="periodForm">
             <select class="mt-3 w-100 text-center rounded-pill p-1" name="balanceDateOption" id="dateOption" onchange="form.submit()">
-              <option value="currentMonth">Bieżący miesiąc</option>
-              <option value="previousMonth">Poprzedni miesiąc</option>
-              <option value="currentYear">Bieżący rok</option>
-              <option value="undenify">Niestandardowy</option>
+              <option value="currentMonth" {% if period.balanceDateOption == 'currentMonth' %} selected="selected" {% endif %}>Bieżący miesiąc</option>
+              <option value="previousMonth" {% if period.balanceDateOption == 'previousMonth' %} selected="selected" {% endif %}>Poprzedni miesiąc</option>
+              <option value="currentYear" {% if period.balanceDateOption == 'currentYear' %} selected="selected" {% endif %}>Bieżący rok</option>
+              <option value="undenify" {% if period.balanceDateOption == 'undenify' %} selected="selected" {% endif %}>Niestandardowy</option>
             </select>
             <div name="undenifyDate" id="undenifyDate">
               <div class="input-group justify-content-between">
                 <div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
                   <label class="text-center" for="postBeginDate">Data początkowa</label>
-                  <input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate }}" onchange="form.submit()" disabled/>
+                  <input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
                 </div>
                 <div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
                   <label class="text-center" for="postEndDate">Data końcowa</label>
-                  <input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ endDate }}" onchange="form.submit()" disabled/>
+                  <input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ endDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary mt-2 w-50  rounded-pill">Zatwierdź</button>
           </form>
         </div>
       </div>
