@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Auth;
+use \App\Models\Balance;
 
 /**
  * Home controller
@@ -20,8 +21,14 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
+        $currentMonth = [];
+        $currentMonth['beginDate'] = date('Y-m-d', strtotime('first day of this month'));
+        $currentMonth['endDate'] = date('Y-m-d');
         if (Auth::isLoggedIn()) {
-            View::renderTemplate('Home/index.html');
+            View::renderTemplate('Home/index.twig', [
+                'incomeSum' => Balance::getTotalIncome($currentMonth),
+                'expenseSum' => Balance::getTotalExpense($currentMonth),
+            ]);
         } else {
             View::renderTemplate('Login/new.html');
         }

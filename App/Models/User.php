@@ -64,7 +64,6 @@ class User extends \Core\Model
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
-            $this->addCategories();
             return $stmt->execute();
         }
 
@@ -77,20 +76,6 @@ class User extends \Core\Model
      * @return void
      */
 
-    public function addCategories()
-    {
-        // $result = $db->prepare("SELECT id FROM users WHERE email='$email'");
-        // $result->execute();
-        // $row = $result->fetch(PDO::FETCH_ASSOC);
-        // $user_id = $row['id'];
-
-        // $expense_cat_statement = 'INSERT INTO expenses_category_assigned_to_users SELECT null, '$user_id', name FROM expenses_category_default'
-        // $expense_cat_statement->execute();
-        // $income_cat_statement = $db->prepare("INSERT INTO incomes_category_assigned_to_users SELECT null, '$user_id', name FROM incomes_category_default");
-        // $income_cat_statement->execute();
-        // $payment_method_statement = $db->prepare("INSERT INTO payment_methods_assigned_to_users SELECT null, '$user_id', name FROM payment_methods_default");
-        // $payment_method_statement->execute();
-    }
     public function validate()
     {
         // Name
