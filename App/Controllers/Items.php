@@ -5,30 +5,24 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Income;
 use \App\Models\Expense;
-use \App\Auth;
-use App\Models\RememberedLogin;
+use \App\Models\Balance;
 use \App\Flash;
 
 
-
-/**
- * Items controller (example)
- *
- * PHP version 7.0
- */
-//class Items extends \Core\Controller
 class Items extends Authenticated
 {
+<<<<<<< HEAD
     /**
      * Incomes items
      *
      * @return void
      */
+=======
+>>>>>>> features/balance-functionality
     public function incomesAction()
     {
-        $categories = Income::getIncomeCategories();
-        View::renderTemplate('Items/incomes.html', [
-            'incomeCategories' => $categories
+        View::renderTemplate('Items/incomes.twig', [
+            'incomeCategories' => Income::getIncomeCategories()
         ]);
     }
 
@@ -40,26 +34,25 @@ class Items extends Authenticated
             Flash::addMessage('Przychód poprawnie dodano!');
             $this->redirect('/Items/incomes');
         } else {
+<<<<<<< HEAD
             Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
 
             View::renderTemplate('Items/incomes.html', [
+=======
+            Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
+            View::renderTemplate('Items/incomes.twig', [
+                'incomeCategories' => Income::getIncomeCategories(),
+>>>>>>> features/balance-functionality
                 'income' => $income
             ]);
         }
     }
 
-    /**
-     * Expenses items
-     *
-     * @return void
-     */
     public function expensesAction()
     {
-        $categories = Expense::getExpenseCategories();
-        $payments = Expense::getPaymentCategories();
-        View::renderTemplate('Items/expenses.html', [
-            'expenseCategories' => $categories,
-            'paymentCategories' => $payments
+        View::renderTemplate('Items/expenses.twig', [
+            'expenseCategories' => Expense::getExpenseCategories(),
+            'paymentCategories' => Expense::getPaymentCategories()
         ]);
     }
 
@@ -70,41 +63,36 @@ class Items extends Authenticated
             Flash::addMessage('Wydatek poprawnie dodano!');
             $this->redirect('/Items/expenses');
         } else {
+<<<<<<< HEAD
             Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
 
             View::renderTemplate('Items/expenses.html', [
+=======
+            Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
+            View::renderTemplate('Items/expenses.twig', [
+                'expenseCategories' => Expense::getExpenseCategories(),
+                'paymentCategories' => Expense::getPaymentCategories(),
+>>>>>>> features/balance-functionality
                 'expense' => $expense
             ]);
         }
     }
 
-    /**
-     * Balance items
-     *
-     * @return void
-     */
     public function balanceAction()
     {
-        View::renderTemplate('Items/balance.html');
-    }
-
-    /**
-     * Add a new item
-     *
-     * @return void
-     */
-    public function newAction()
-    {
-        echo "new action";
-    }
-
-    /**
-     * Show an item
-     *
-     * @return void
-     */
-    public function showAction()
-    {
-        echo "show action";
+        $balancePeriod = new Balance($_POST);
+        if ($selectedPeriod = $balancePeriod->switchTime()) {
+            View::renderTemplate('Items/balance.twig', [
+                'incomesData' => Balance::getIncomes($selectedPeriod),
+                'expensesData' => Balance::getExpenses($selectedPeriod),
+                'incomesChartData' => Balance::getIncomesForChart($selectedPeriod),
+                'expensesChartData' => Balance::getExpensesForChart($selectedPeriod),
+                'incomeSum' => Balance::getTotalIncome($selectedPeriod),
+                'expenseSum' => Balance::getTotalExpense($selectedPeriod),
+                'beginDate' => $selectedPeriod['beginDate'],
+                'endDate' => $selectedPeriod['endDate'],
+                'period' => $balancePeriod
+            ]);
+        }
     }
 }

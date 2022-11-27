@@ -37,7 +37,7 @@ class Expense extends \Core\Model
 
     public function addExpense()
     {
-        $this->validate();
+        // $this->validate();
 
         if (empty($this->errors)) {
 
