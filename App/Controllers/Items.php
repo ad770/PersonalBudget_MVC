@@ -11,14 +11,6 @@ use \App\Flash;
 
 class Items extends Authenticated
 {
-<<<<<<< HEAD
-    /**
-     * Incomes items
-     *
-     * @return void
-     */
-=======
->>>>>>> features/balance-functionality
     public function incomesAction()
     {
         View::renderTemplate('Items/incomes.twig', [
@@ -34,15 +26,9 @@ class Items extends Authenticated
             Flash::addMessage('Przychód poprawnie dodano!');
             $this->redirect('/Items/incomes');
         } else {
-<<<<<<< HEAD
-            Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
-
-            View::renderTemplate('Items/incomes.html', [
-=======
             Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
             View::renderTemplate('Items/incomes.twig', [
                 'incomeCategories' => Income::getIncomeCategories(),
->>>>>>> features/balance-functionality
                 'income' => $income
             ]);
         }
@@ -63,16 +49,10 @@ class Items extends Authenticated
             Flash::addMessage('Wydatek poprawnie dodano!');
             $this->redirect('/Items/expenses');
         } else {
-<<<<<<< HEAD
-            Flash::addMessage('Wystąpił błąd, spróbuj ponownie', Flash::WARNING);
-
-            View::renderTemplate('Items/expenses.html', [
-=======
             Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
             View::renderTemplate('Items/expenses.twig', [
                 'expenseCategories' => Expense::getExpenseCategories(),
                 'paymentCategories' => Expense::getPaymentCategories(),
->>>>>>> features/balance-functionality
                 'expense' => $expense
             ]);
         }
