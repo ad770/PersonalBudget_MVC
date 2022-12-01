@@ -8,8 +8,7 @@ const incomeChartData = google.visualization.arrayToDataTable([[
 'Kategoria przychodów', 'Suma przychodów', {
 role: 'annotation'
 }
-],{% if incomesChartData is not empty %}
-{% for income in incomesChartData %}
+],{% if incomesChartData is not empty %}{% for income in incomesChartData %}
 [
 '{{ income.name }}', {{ income.incomeSum }}, '{{ income.incomeSum }}'
 ],{% endfor %}
@@ -39,8 +38,7 @@ const expenseChartData = google.visualization.arrayToDataTable([[
 'Kategoria wydatków', 'Suma wydatków', {
 role: 'annotation'
 }
-],{% if expenseChartData is not empty %}
-{% for expense in expensesChartData %}
+],{% if expensesChartData is not empty %}{% for expense in expensesChartData %}
 [
 '{{ expense.name }}', {{ expense.expenseSum }}, '{{ expense.expenseSum }}'
 ],{% endfor %}

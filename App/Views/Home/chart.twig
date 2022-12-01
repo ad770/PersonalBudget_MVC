@@ -18,7 +18,9 @@ role: 'annotation'
 ],{% endif %}
 
 {% if expenseSum is not empty %}
-['Wydatki', {{ expenseSum[0].expenseSum }}, '{{ expenseSum[0].expenseSum }}']
+[
+'Wydatki', {{ expenseSum[0].expenseSum }}, '{{ expenseSum[0].expenseSum }}'
+],
 {% else %}
 [
 'Wydatki', 0, '0'
