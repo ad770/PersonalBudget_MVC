@@ -1,28 +1,44 @@
 <script type="text/javascript">
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawChart);
+	google.charts.load("current", {packages: ["corechart"]});
+google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        const chartData = google.visualization.arrayToDataTable([
-            ['Kategoria', 'Wartość', { role: 'annotation' }],
-            ['Przychody', {{ incomeSum[0].incomeSum }}, '{{ incomeSum[0].incomeSum }}'],
-            ['Wydatki', {{ expenseSum[0].expenseSum }}, '{{ expenseSum[0].expenseSum }}']
-        ]);
+function drawChart() {
+const chartData = google.visualization.arrayToDataTable([
+[
+'Kategoria', 'Wartość', {
+role: 'annotation'
+}
+],{% if incomeSum is not empty %}
+[
+'Przychody', {{ incomeSum[0].incomeSum }}, '{{ incomeSum[0].incomeSum }}'
+],
+{% else %}
+[
+'Przychody', 0, '0'
+],{% endif %}
 
-        const chartOptions = {
-                legend: {
-                    position: 'top',
-                    alignment: 'center'
-                },
-                is3D: true,
-                pieSliceText: 'value',
-                hAxis: {
-                    textPosition: 'none'
-                },
-                backgroundColor: 'transparent'
-            };
+{% if expenseSum is not empty %}
+['Wydatki', {{ expenseSum[0].expenseSum }}, '{{ expenseSum[0].expenseSum }}']
+{% else %}
+[
+'Wydatki', 0, '0'
+],{% endif %}
+]);
 
-    const chart = new google.visualization.PieChart(document.getElementById('chart'));
-    chart.draw(chartData, chartOptions);
-    }
+const chartOptions = {
+legend: {
+position: 'top',
+alignment: 'center'
+},
+is3D: true,
+pieSliceText: 'value',
+hAxis: {
+textPosition: 'none'
+},
+backgroundColor: 'transparent'
+};
+
+const chart = new google.visualization.PieChart(document.getElementById('chart'));
+chart.draw(chartData, chartOptions);
+}
 </script>
