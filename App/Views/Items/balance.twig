@@ -8,12 +8,6 @@
 	{% include "Items/charts.twig" %}
 {% endblock %}
 {% block body %}
-	{% if expenseChartData is empty %}
-		Expense jest pusty
-	{% else %}
-		Expense nie jest pusty
-	{% endif %}
-	\
 	<h1 class="text-center">Twój bilans z wybranego okresu rozliczeniowego</h1>
 	{% set total = incomeSum[0].incomeSum - expenseSum[0].expenseSum %}
 	<h2 class="text-center {% if total < 0 %} text-danger {% else %} text-success {% endif %}">
