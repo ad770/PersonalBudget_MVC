@@ -14,25 +14,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'budget.adrian-zuchowski.profesjonalnyprogramista.pl.mysql.dhosting.pl';
+    const DB_HOST = 'localhost';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'geich3_budgetad';
+    const DB_NAME = 'personalbudgetmvc';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'aojoh9_budgetad';
+    const DB_USER = 'mvcuser';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'ohrahshu1She';
+    const DB_PASSWORD = '';
 
     /**
      * Show or hide error messages on screen
