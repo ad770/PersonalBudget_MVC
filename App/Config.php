@@ -14,25 +14,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'localhost';
+    const DB_HOST = 'budget.adrian-zuchowski.profesjonalnyprogramista.pl.mysql.dhosting.pl';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'personalbudgetmvc';
+    const DB_NAME = 'geich3_budgetad';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'mvcuser';
+    const DB_USER = 'aojoh9_budgetad';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = '';
+    const DB_PASSWORD = 'ohrahshu1She';
 
     /**
      * Show or hide error messages on screen
@@ -47,16 +47,51 @@ class Config
     const SECRET_KEY = 'your-secret-key';
 
     /**
-     * Mailgun API key
+     * Mail host
      *
      * @var string
      */
-    const MAILGUN_API_KEY = 'your-mailgun-api-key';
+    const MAIL_HOST = 'your-mail-host';
 
     /**
-     * Mailgun domain
+     * Mail host authentication
+     *
+     * @var boolean
+     */
+    const MAIL_HOST_AUTHENTICATION = true;
+
+    /**
+     * Mail username
      *
      * @var string
      */
-    const MAILGUN_DOMAIN = 'your-mailgun-domain';
+    const MAIL_USERNAME = 'your-mail-username';
+
+    /**
+     * Mail password
+     *
+     * @var string
+     */
+    const MAIL_PASSWORD = 'your-mail-password';
+
+    /**
+     * Mail smtp secure type
+     *
+     * @var string
+     */
+    const MAIL_SMTP_SECURE_TYPE = 'tls';
+
+    /**
+     * Mail smtp port
+     *
+     * @var int
+     */
+    const MAIL_SMTP_PORT = 'your-mail-smtp-port';
+
+    /**
+     * Mail sender name
+     *
+     * @var string
+     */
+    const MAIL_SENDER_NAME = 'your-mail-sender-name';
 }
