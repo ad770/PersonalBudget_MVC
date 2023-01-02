@@ -37,13 +37,14 @@ class Signup extends \Core\Controller
         if ($user->save()) {
             $user_id = User::findByEmail($user->email);
 
+            var_dump($user->sendActivationEmail());
             //$user->sendActivationEmail();
 
-            Income::createIncomeCategoriesForNewUser($user_id->id);
-            Expense::createExpenseCategoriesForNewUser($user_id->id);
-            Expense::createPaymentCategoriesForNewUser($user_id->id);
+            // Income::createIncomeCategoriesForNewUser($user_id->id);
+            // Expense::createExpenseCategoriesForNewUser($user_id->id);
+            // Expense::createPaymentCategoriesForNewUser($user_id->id);
 
-            $this->redirect('/signup/success');
+            // $this->redirect('/signup/success');
         } else {
 
             View::renderTemplate('Signup/new.html', [

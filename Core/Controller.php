@@ -83,7 +83,7 @@ abstract class Controller
      */
     public function redirect($url)
     {
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+        header('Location: https://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
         exit;
     }
 
@@ -95,7 +95,7 @@ abstract class Controller
      */
     public function requireLogin()
     {
-        if (! Auth::getUser()) {
+        if (!Auth::getUser()) {
 
             //Flash::addMessage('Please login to access that page');
             Flash::addMessage('Please login to access that page', Flash::INFO);

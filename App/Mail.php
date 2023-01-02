@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Config;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer;
+use PHPMailer\SMTP;
+use PHPMailer\Exception;
 
 /**
  * Mail
@@ -46,7 +46,6 @@ class Mail
         $mail->Subject = $subject;
         $mail->Body = $html;
         $mail->AltBody = $text;
-
         $mail->send();
     }
 }

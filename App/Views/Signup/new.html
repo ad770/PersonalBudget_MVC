@@ -25,7 +25,7 @@
                     validPassword: true
                 },
                 checkPassword: {
-                    equalTo: '#password'
+                    equalTo: '#inputPassword'
                 }
             },
             messages: {
@@ -34,6 +34,7 @@
                 },
                 email: {
                     required: 'Wprowadź email',
+                    email: 'Wprowadź poprawny adres',
                     remote: 'Email zajęty'
                 },
                 password: {
@@ -103,12 +104,18 @@
                             aria-describedby="passwordHelp" placeholder="Potwierdź hasło" required>
                     </div>
                     {% if user.errors is not empty %}
-                    <ul class="text-danger">
+                    <ul class="text-danger text-start">
                         {% for error in user.errors %}
                         <li>{{ error }}</li>
                         {% endfor %}
                     </ul>
                     {% endif %}
+                    <div>
+                        <label id="inputName-error" class="error" for="inputName"></label>
+                        <label id="inputEmail-error" class="error" for="inputEmail"></label>
+                        <label id="inputPassword-error" class="error" for="inputPassword"></label>
+                        <label id="checkPassword-error" class="error" for="checkPassword"></label>
+                    </div>
 
                     <div class="input-group mb-3 w-50 mx-auto justify-content-center">
                         <button type="submit" class="btn btn-primary mt-3 rounded-pill">Rejestracja</button>
