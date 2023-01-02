@@ -27,6 +27,10 @@ class Mail
      */
     public static function send($to, $subject, $text, $html)
     {
+        require 'vendor\phpmailer\phpmailer\src\Exception.php';
+        require 'vendor\phpmailer\phpmailer\src\PHPMailer.php';
+        require 'vendor\phpmailer\phpmailer\src\SMPT.php';
+
         // Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
 
