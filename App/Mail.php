@@ -3,9 +3,14 @@
 namespace App;
 
 use App\Config;
-use PHPMailer\PHPMailer;
-use PHPMailer\SMTP;
-use PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require '../vendor/phpmailer/phpmailer/src/Exception.php';
+require '../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../vendor/phpmailer/phpmailer/src/SMTP.php';
+
 
 /**
  * Mail
@@ -27,15 +32,12 @@ class Mail
      */
     public static function send($to, $subject, $text, $html)
     {
-        require 'vendor\phpmailer\phpmailer\src\Exception.php';
-        require 'vendor\phpmailer\phpmailer\src\PHPMailer.php';
-        require 'vendor\phpmailer\phpmailer\src\SMPT.php';
 
         // Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
 
         //Server settings
-        //$mail->SMTPDebug = 3;
+        $mail->SMTPDebug = 2;
         //$mail->Debugoutput = 'html';
         $mail->isSMTP();
         $mail->Host = Config::MAIL_HOST;
@@ -44,9 +46,13 @@ class Mail
         $mail->Password = Config::MAIL_PASSWORD;
         $mail->SMTPSecure = Config::MAIL_SMTP_SECURE_TYPE;
         $mail->Port = Config::MAIL_SMTP_PORT;
+        $mail->SMTPOptions = Config::MAIL_SMTP_OPTIONS;
+        // $mail->SMTPSecure = false;
+        $mail->SMTPAutoTLS = false;
 
         $mail->setFrom(Config::MAIL_USERNAME, Config::MAIL_SENDER_NAME);
         $mail->addAddress($to);
+        $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $html;
         $mail->AltBody = $text;

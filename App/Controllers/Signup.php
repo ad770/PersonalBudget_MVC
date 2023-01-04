@@ -38,7 +38,7 @@ class Signup extends \Core\Controller
             $user_id = User::findByEmail($user->email);
 
             var_dump($user->sendActivationEmail());
-            //$user->sendActivationEmail();
+            $user->sendActivationEmail();
 
             // Income::createIncomeCategoriesForNewUser($user_id->id);
             // Expense::createExpenseCategoriesForNewUser($user_id->id);
