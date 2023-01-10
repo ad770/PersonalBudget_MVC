@@ -14,25 +14,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'budget.adrian-zuchowski.profesjonalnyprogramista.pl.mysql.dhosting.pl';
+    const DB_HOST = 'database host';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'geich3_budgetad';
+    const DB_NAME = 'database name';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'aojoh9_budgetad';
+    const DB_USER = 'database user';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'ohrahshu1She';
+    const DB_PASSWORD = 'database password';
 
     /**
      * Show or hide error messages on screen
@@ -65,14 +65,14 @@ class Config
      *
      * @var string
      */
-    const MAIL_USERNAME = 'confirmation.personal.budget@gmail.com';
+    const MAIL_USERNAME = 'mail username';
 
     /**
      * Mail password
      *
      * @var string
      */
-    const MAIL_PASSWORD = 'PersonalBudgetKonto1@';
+    const MAIL_PASSWORD = 'mail password';
 
     /**
      * Mail smtp secure type
@@ -100,7 +100,7 @@ class Config
      *
      * @var string
      */
-    const MAIL_APP_PASSWORD = 'cocsncoenvihxfel';
+    const MAIL_APP_PASSWORD = 'mail app password';
 
     /**
      * Mail smtp options
