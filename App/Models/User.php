@@ -377,12 +377,12 @@ class User extends \Core\Model
      */
     public function sendActivationEmail()
     {
-        $url = 'http://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
+        $url = 'https://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
 
         $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
         $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Account activation', $text, $html);
+        Mail::send($this->email, 'Aktywacja konta', $text, $html);
     }
 
     /**

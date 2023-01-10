@@ -37,18 +37,14 @@ class Mail
         $mail = new PHPMailer(true);
 
         //Server settings
-        $mail->SMTPDebug = 2;
-        //$mail->Debugoutput = 'html';
         $mail->isSMTP();
         $mail->Host = Config::MAIL_HOST;
         $mail->SMTPAuth = Config::MAIL_HOST_AUTHENTICATION;
         $mail->Username = Config::MAIL_USERNAME;
-        $mail->Password = Config::MAIL_PASSWORD;
+        $mail->Password = Config::MAIL_APP_PASSWORD;
         $mail->SMTPSecure = Config::MAIL_SMTP_SECURE_TYPE;
         $mail->Port = Config::MAIL_SMTP_PORT;
         $mail->SMTPOptions = Config::MAIL_SMTP_OPTIONS;
-        // $mail->SMTPSecure = false;
-        $mail->SMTPAutoTLS = false;
 
         $mail->setFrom(Config::MAIL_USERNAME, Config::MAIL_SENDER_NAME);
         $mail->addAddress($to);

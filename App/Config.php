@@ -2,11 +2,6 @@
 
 namespace App;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-
-
 /**
  * Application configuration
  *
@@ -91,7 +86,7 @@ class Config
      *
      * @var int
      */
-    const MAIL_SMTP_PORT = '587';
+    const MAIL_SMTP_PORT = '465';
 
     /**
      * Mail sender name
@@ -99,6 +94,13 @@ class Config
      * @var string
      */
     const MAIL_SENDER_NAME = 'Potwierdzenie';
+
+    /**
+     * Mail app password
+     *
+     * @var string
+     */
+    const MAIL_APP_PASSWORD = 'cocsncoenvihxfel';
 
     /**
      * Mail smtp options
