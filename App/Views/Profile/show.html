@@ -4,15 +4,15 @@
 
 {% block body %}
 
-<h1>Profile</h1>
+<h1 class="text-center">Ustawienia konta</h2>
 
-<dl class="dl-horizontal">
-    <dt>Name</dt>
-    <dd>{{ user.name }}</dd>
-    <dt>email</dt>
-    <dd>{{ user.email }}</dd>
-</dl>
-
-<a href="/profile/edit">Edit</a>
-
-{% endblock %}
+    <div class="d-grid gap-2 mx-auto btn-group-vertical buttons w-25">
+        <a name="editIncomeCat" id="editIncomeCat" class="btn btn-primary" href="/profile/incomes"
+            role="button">Kategorie przychodów</a>
+        <a name="editExpenseCat" id="editExpenseCat" class="btn btn-primary" href="/profile/expenses"
+            role="button">Kategorie wydatków</a>
+        <a name="editPaymentMet" id="editPaymentMet" class="btn btn-primary" href="/profile/payments"
+            role="button">Metody płatności</a>
+        <a name="editUser" id="editUser" class="btn btn-primary" href="/profile/edit" role="button">Użytkownik</a>
+    </div>
+    {% endblock %}

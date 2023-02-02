@@ -56,7 +56,7 @@
 
 {% block body %}
 
-<h1>Profile</h1>
+<h1>Profil</h1>
 
 {% if user.errors is not empty %}
 <p>Errors:</p>
@@ -70,23 +70,23 @@
 <form method="post" id="formProfile" action="/profile/update">
 
     <div class="form-group">
-        <label for="inputName">Name</label>
+        <label for="inputName">Imię</label>
         <input id="inputName" name="name" placeholder="Name" value="{{ user.name }}" required class="form-control" />
     </div>
     <div class="form-group">
-        <label for="inputEmail">Email address</label>
+        <label for="inputEmail">Email</label>
         <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email"
             class="form-control" />
     </div>
     <div class="form-group">
-        <label for="inputPassword">Password</label>
+        <label for="inputPassword">Hasło</label>
         <input type="password" id="inputPassword" name="password" placeholder="Password" aria-describedby="helpBlock"
             class="form-control" />
-        <span id="helpBlock" class="help-block">Leave blank to keep current password</span>
+        <span id="helpBlock" class="help-block">Pozostaw puste jeżeli nie chcesz zmieniać hasła</span>
     </div>
 
-    <button type="submit" class="btn btn-default">Save</button>
-    <a href="/profile/show">Cancel</a>
+    <button type="submit" class="btn btn-default">Zatwierdź</button>
+    <a href="/profile/show">Anuluj</a>
 
 </form>
 
