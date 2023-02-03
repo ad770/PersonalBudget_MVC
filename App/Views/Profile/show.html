@@ -6,13 +6,13 @@
 
 <h1 class="text-center">Ustawienia konta</h2>
 
-    <div class="d-grid gap-2 mx-auto btn-group-vertical buttons w-25">
-        <a name="editIncomeCat" id="editIncomeCat" class="btn btn-primary" href="/profile/incomes"
+    <div class="d-grid gap-2 mx-auto btn-group-vertical buttons w-25" id="settingPage">
+        <a name="editIncomeCat" id="editIncomeCat" class="btn btn-primary" href="/profile/editIncomeCategories"
             role="button">Kategorie przychodów</a>
-        <a name="editExpenseCat" id="editExpenseCat" class="btn btn-primary" href="/profile/expenses"
+        <a name="editExpenseCat" id="editExpenseCat" class="btn btn-primary" href="/profile/editExpenseCategories"
             role="button">Kategorie wydatków</a>
-        <a name="editPaymentMet" id="editPaymentMet" class="btn btn-primary" href="/profile/payments"
+        <a name="editPaymentMet" id="editPaymentMet" class="btn btn-primary" href="/profile/editPaymentMethods"
             role="button">Metody płatności</a>
-        <a name="editUser" id="editUser" class="btn btn-primary" href="/profile/edit" role="button">Użytkownik</a>
+        <a name="editUser" id="editUser" class="btn btn-primary" href="/profile/editUser">Użytkownik</a>
     </div>
     {% endblock %}

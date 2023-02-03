@@ -1,0 +1,26 @@
+{% extends "logged.html" %}
+
+{% block title %}Edit expense categories{% endblock %}
+
+{% block body %}
+
+<h2 class="text-center">Zarządzaj kategoriami wydatków</h2>
+<div>
+    <div class="row d-flex justify-content-end">
+        <div class="btn btn-info col-1 text-center border">Dodaj</div>
+        <div class="btn btn-danger col-1 text-center border">Usuń wiele</div>
+    </div>
+    {% for category in expenseCategories %}
+    <div class="d-grip gap-2 row w-50 d-flex justify-content-center border mx-auto">
+        <div class="col-6 align-self-center px-3"><span>{{category.name}}</span></div>
+        <div class="btn btn-info col-2 text-center">Edytuj</div>
+        <div class="btn btn-danger col-2 text-center">Usuń</div>
+    </div>
+    <div class="row d-flex justify-content-center collapse" id="content">
+        Limit
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
