@@ -38,6 +38,7 @@ class Profile extends Authenticated
     public function editPaymentMethodsAction()
     {
         View::renderTemplate('Profile/edit_payments.html', [
+            'paymentMethods' => Expense::getPaymentCategories(),
             'user' => $this->user
         ]);
     }
