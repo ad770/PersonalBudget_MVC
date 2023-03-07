@@ -66,11 +66,11 @@ class Expense extends \Core\Model
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
 
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        // $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function createExpenseCategoriesForNewUser($user_id)
