@@ -2,59 +2,21 @@
 
 {% block title %}Edit income categories{% endblock %}
 {% block headscript %}
-<script>
-    $(document).ready(function () {
-        $("form").hide();
-        $(".editButton").click(function () {
-            $(".addCategory:visible").slideUp(300);
-            $(".changeForm:visible").not($(this).closest(".editIncomeCategory").find("form")).slideUp(300);
-            $(this).closest(".editIncomeCategory").find("form").slideToggle(300);
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $(".addButton").click(function () {
-            $(".changeForm:visible").slideUp(300);
-            $(this).closest(".addIncomeCategory").find("form").slideToggle(300);
-        });
-    });
-</script>
-<!-- <script>
-    $(document).on('click', '.checkLimit', function () {
-        if ($(this).is(':checked')) {
-            $(this).closest(".limitValue").removeClass('disabled').css('pointerEvents', 'none');
-        }
-        else {
-            $(this).closest(".limitValue").addClass('disabled').css('pointerEvents', 'auto');;
-        }
-    });
-</script> -->
-<script>
-    $(function () {
-        $('.checkLimit').change(function () {
-            if ($(this).is(':checked')) {
-                $(".limitValue").prop('disabled', false);
-            } else {
-                $(".limitValue").prop('disabled', true);
-            }
-        });
-    });
-</script>
-
+<script src="/js/settings.js"></script>
 {% endblock %}
 {% block body %}
 
 <h2 class="text-center my-4">Zarządzaj kategoriami przychodów</h2>
-<div class="editPanel">
+<div class="editIncomePanel">
     {% for category in incomeCategories %}
     <div class="editIncomeCategory">
         <div class="d-grip gap-2 row w-50 d-flex py-2 justify-content-center border mx-auto">
             <div class="col-6 align-self-center px-3"><span class="fs-5">{{category.name}}</span></div>
-            <button class="btn btn-outline-info col-2 text-center btn-sm editButton" id="editButton">Edytuj</button>
+            <button class="btn btn-outline-info col-2 text-center btn-sm editIncomeCategoryButton"
+                id="editIncomeCategoryButton">Edytuj</button>
             <button class="btn btn-outline-danger col-2 text-center btn-sm">Usuń</button>
         </div>
-        <form class="changeForm">
+        <form class="changeIncomeForm">
             <div class="row d-flex w-50 justify-content-start collapse border mx-auto" id="content">
                 <div class="input-group my-2">
                     <input type="text" class="form-control  w-25" placeholder="Wprowadź nową nazwę"
@@ -74,10 +36,10 @@
     {% endfor %}
     <div class="addIncomeCategory">
         <div class="d-grip gap-2 row w-50 d-flex py-2 justify-content-center border mx-auto">
-            <button class="btn btn-outline-secondary col-10 text-center addButton" id="addButton">+ Dodaj nową
-                kategorię</button>
+            <button class="btn btn-outline-secondary col-10 text-center addIncomeCategoryButton"
+                id="addIncomeCategoryButton">+ Dodaj nową kategorię</button>
         </div>
-        <form class="addCategory">
+        <form class="addIncomeCategoryForm">
             <div class="row d-flex w-50 justify-content-start collapse border mx-auto" id="content">
                 <div class="input-group my-2">
                     <input type="text" class="form-control w-25" placeholder="Wprowadź nazwę kategorii"
