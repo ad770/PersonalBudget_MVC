@@ -6,10 +6,18 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $("document").ready(function () {
+            setTimeout(function () {
+                $("div.alert").remove();
+            }, 5000);
+        });
+    </script>
     {% block headscript %}{% endblock %}
 </head>
 
@@ -17,17 +25,12 @@
     <nav class="navbar navbar-dark bg-dark p-3">
         <div class="col-3"></div>
         <div class="nav navbar-nav text-center col-6">
-            <a class="navbar-brand " href="/home/index"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                    fill="currentColor" class="bi bi-bank2" viewBox="0 0 15 15">
-                    <path
-                        d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916l-7.5-5zM12.375 6v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1H.5z" />
-                </svg> System zarządzania budżetem osobisym</a>
-
+            <a class="navbar-brand " href="/home/index"><i class="bi bi-bank"> System zarządzania budżetem
+                    osobisym</i></a>
         </div>
         <div class="nav navbar-nav col-3 text-end">
             {% block nav %}{% endblock %}
         </div>
-
     </nav>
 
     <div class="container p-4">
@@ -40,35 +43,10 @@
         {% block balance %}{% endblock %}
         {% block balanceCharts %}{% endblock %}
         {% block body %}{% endblock %}
-
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-    <script>
-        $("document").ready(function () {
-            setTimeout(function () {
-                $("div.alert").remove();
-            }, 5000);
-        });
-    </script>
-    <script>
-        $(function () {
-            $("td[colspan=2]").find("p").hide();
-            $("table").click(function (event) {
-                event.stopPropagation();
-                var $target = $(event.target);
-                if ($target.closest("tr").attr("colspan") > 1) {
-                    $target.slideUp();
-                } else {
-                    $target.closest("tr").next().find("p").slideToggle();
-                }
-            });
-        });
-    </script>
     {% block footer %}{% endblock %}
 
     <footer class="page-footer fixed-bottom text-center bg-dark text-white">2023 &#169; Adrian Żuchowski</footer>

@@ -1,5 +1,5 @@
 body {
-    background-color: whitesmoke;
+    background-image: linear-gradient(rgba(251, 255, 255, 0.5), rgba(143, 143, 76, 0.5));
     background-attachment: fixed;
     background-size: cover;
     background-position: 14% 84%;
@@ -32,7 +32,7 @@ textarea {
     background-color: unset;
 }
 
-#table_detail tr.hidden_tr {
+#table_detail tr.hiddenRow {
     text-align: left;
     background-color: #ccccce;
 }
@@ -41,15 +41,11 @@ textarea {
     background-color: #f2f2f2;
 }
 
-#table_detail tr.hidden_tr:hover {
+#table_detail tr.hiddenRow:hover {
     text-align: left;
     background-color: #cad3dd;
 }
 
-#table_detail .hidden_row {
-    display: none;
-}
-
-#main_table_row td {
+.mainRow td {
     cursor: pointer;
 }
