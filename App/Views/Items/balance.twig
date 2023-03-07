@@ -1,8 +1,17 @@
 {% extends 'logged.html' %}
 
-{% block title %}
-	Balance
+{% block title %}Balance{% endblock %}
+{% block headscript %}
+	<script>
+		$(document).ready(function () {
+			$(".hiddenRow").hide();
+			$(".mainRow").click(function () {
+				$(this).next().fadeToggle();
+			});
+		});
+	</script>
 {% endblock %}
+
 
 {% block footer %}
 	{% include "Items/charts.twig" %}
@@ -10,9 +19,7 @@
 {% block body %}
 	<h1 class="text-center">Twój bilans z wybranego okresu rozliczeniowego</h1>
 	{% set total = incomeSum[0].incomeSum - expenseSum[0].expenseSum %}
-	<h2 class="text-center {% if total < 0 %} text-danger {% else %} text-success {% endif %}">
-		{{total | number_format(2,'.','')}}
-		zł</h2>
+	<h2 class="text-center {% if total < 0 %} text-danger {% else %} text-success {% endif %}"> {{total | number_format(2,'.','')}}	zł</h2>
 	<div class="container">
 		<div class="balance_panel mb-4">
 			<div class="select_balance">
@@ -68,20 +75,16 @@
 						{% set totalIncome = 0 %}
 						{% for income in incomesData %}
 							{% set totalIncome = totalIncome + income.amount %}
-							<tr id="main_table_row">
+							<tr class="mainRow">
 								<td>{{ income.amount }}</td>
 								<td>{{ income.date_of_income }}</td>
 							</tr>
-							<tr class="hidden_tr">
+							<tr class="hiddenRow">
 								<td colspan="2">
-									<p>
-										Kategoria:
-										{{ income.name }}<br/>
-										{% if income.income_comment is not empty %}
-											Uwagi:
-											{{ income.income_comment }}
-										{% endif %}
-									</p>
+									Kategoria: {{ income.name }}<br/>
+									{% if income.income_comment is not empty %}
+										Uwagi: {{ income.income_comment }}
+									{% endif %}
 								</td>
 							</tr>
 						{% endfor %}
@@ -101,21 +104,17 @@
 						{% set totalExpense = 0 %}
 						{% for expense in expensesData %}
 							{% set totalExpense = totalExpense + expense.amount %}
-							<tr id="main_table_row">
+							<tr class="mainRow">
 								<td>{{ expense.amount }}</td>
 								<td>{{ expense.date_of_expense }}</td>
 							</tr>
-							<tr class="hidden_tr">
+							<tr class="hiddenRow">
 								<td colspan="2">
-									<p>
-										Kategoria:
-										{{ expense.expense_cat }}<br/>
-										Metoda płatności:
-										{{ expense.payment_method }}<br/>
-										{% if expense.expense is not empty %}
-											Uwagi:{{ expense.expense_comment }}
-										{% endif %}
-									</p>
+									Kategoria: {{ expense.expense_cat }}<br/>
+									Metoda płatności:{{ expense.payment_method }}<br/>
+									{% if expense.expense is not empty %}
+										Uwagi: {{ expense.expense_comment }}
+									{% endif %}
 								</td>
 							</tr>
 						{% endfor %}
