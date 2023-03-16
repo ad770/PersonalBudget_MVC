@@ -32,6 +32,23 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $(".changePaymentForm").hide();
+    $(".editPaymentMethodButton").click(function () {
+        $(".addPaymentMethodForm:visible").slideUp(300);
+        $(".changePaymentForm:visible").not($(this).closest(".editPaymentMethods").find("form")).slideUp(300);
+        $(this).closest(".editPaymentMethods").find("form").slideToggle(300);
+    });
+});
+
+$(document).ready(function () {
+    $(".addPaymentMethodForm").hide();
+    $(".addPaymentMethodButton").click(function () {
+        $(".changePaymentForm:visible").slideUp(300);
+        $(this).closest(".addPaymentMethod").find("form").slideToggle(300);
+    });
+});
+
 $(function () {
     $('.checkLimit').change(function () {
         if ($(this).is(':checked')) {

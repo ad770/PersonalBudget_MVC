@@ -13,8 +13,8 @@
         <div class="d-grip gap-2 row w-50 d-flex py-2 justify-content-center border mx-auto">
             <div class="col-6 align-self-center px-3"><span class="fs-5">{{category.name}}</span></div>
             <button class="btn btn-outline-info col-2 text-center btn-sm editExpenseCategoryButton"
-                id="editExpenseCategoryButton">Edytuj</button>
-            <button class="btn btn-outline-danger col-2 text-center btn-sm">Usuń</button>
+                id="editExpenseCategoryButton"><i class="bi bi-pencil"></i> Edytuj</button>
+            <button class="btn btn-outline-danger col-2 text-center btn-sm"><i class="bi bi-trash"></i> Usuń</button>
         </div>
         <form class="changeExpenseForm">
             <div class="row d-flex w-50 justify-content-start collapse border mx-auto" id="content">
@@ -28,7 +28,7 @@
                     </div>
                     <input type="text" class="form-control limitValue" name="limitValue"
                         aria-label="Text input with checkbox" disabled>
-                    <button class="btn btn-outline-success" type="button" id="button-addon2">Zatwierdź</button>
+                    <button class="btn btn-outline-success" type="button" id="button-addon2">Zmień</button>
                 </div>
             </div>
         </form>
@@ -37,7 +37,7 @@
     <div class="addExpenseCategory">
         <div class="d-grip gap-2 row w-50 d-flex py-2 justify-content-center border mx-auto">
             <button class="btn btn-outline-secondary col-10 text-center addExpenseCategoryButton"
-                id="addExpenseCategoryButton">+ Dodaj nową kategorię</button>
+                id="addExpenseCategoryButton"><i class="bi bi-plus"></i> Dodaj nową kategorię</button>
         </div>
         <form class="addExpenseCategoryForm">
             <div class="row d-flex w-50 justify-content-start collapse border mx-auto" id="content">
@@ -51,7 +51,8 @@
                     </div>
                     <input type="text" class="form-control limitValue" name="limitValue"
                         aria-label="Text input with checkbox" disabled>
-                    <button class="btn btn-outline-success" type="button" id="button-addon2">Zatwierdź</button>
+                    <button class="btn btn-outline-success" type="button" id="button-addon2"><i
+                            class="bi bi-clipboard-plus"></i> Dodaj</button>
                 </div>
             </div>
         </form>
