@@ -47,6 +47,12 @@ class Items extends Authenticated
         echo json_encode(Expense::getExpenseCategories(), JSON_UNESCAPED_UNICODE);
     }
 
+    public function limitValueAction()
+    {
+        $id = $this->route_params['id'];
+        echo json_encode(Expense::getLimitValueByExpenseId($id), JSON_UNESCAPED_UNICODE);
+    }
+
     public function newExpenseAction()
     {
         $expense = new Expense($_POST);

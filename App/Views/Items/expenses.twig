@@ -2,6 +2,9 @@
 
 {% block title %}Expenses
 {% endblock %}
+{% block headscript %}
+	<script src="/js/limit.js"></script>
+{% endblock %}
 {% block body %}
 	{% if expense.errors is not empty %}
 		<p>Errors:</p>
@@ -12,13 +15,35 @@
 		</ul>
 	{% endif %}
 	<h1 class="text-center">Dodaj wydatek</h1>
+
 	<div class="budget_panel p-2 d-flex justify-content-center">
-		<div class="row col-10 col-sm-10 col-md-8 col-lg-6 col-xlg=6 m-0 p-0 border rounded-3 text-dark">
+		<div class="row col-10 col-sm-10 col-md-8 col-lg-6 col-xlg=6 m-0 p-2 border shadow rounded-3 text-dark">
 			<form action="/items/newExpense" method="POST">
 				<div class="row w-75 mx-auto my-2 mt-3">
 					<label for="expense_value"></label>
 					<input type="number" step="0.01" min="0" class="rounded-pill" name="expense_value" id="expense_value" placeholder="100,00 zł" value="{{ expense.expense_value }}" required/>
 				</div>
+				<div class="limitSection p-2 justify-content-center" id="limitSection" style="display: none;">
+					<div class="row">
+						<div class="col-sm d-grid">
+							<strong>Limit:</strong>
+							<label class="limit"></label>
+						</div>
+						<div class="col-sm d-grid">
+							<strong>Wydano:</strong>
+							<label class="spent"></label>
+						</div>
+						<div class="col-sm d-grid">
+							<strong>Bilans:</strong>
+							<label class="balance"></label>
+						</div>
+						<div class="col-sm d-grid">
+							<strong>Suma:</strong>
+							<label class="spentAndValueInput"></label>
+						</div>
+					</div>
+				</div>
+
 				<div class="row w-75 mx-auto my-2">
 					<label for="expense_date"></label>
 					<input type="date" class="rounded-pill" name="expense_date" min="2000-01-01" id="expense_date" value="{{ 'now'|date('Y-m-d') }}" required>
@@ -27,18 +52,23 @@
 					<label for="expense_payment"></label>
 					<select name="expense_payment" id="expense_payment" class="rounded-pill">
 						<option disabled selected>Wybierz metodę płatności</option>
-						{% for category in paymentCategories %}
-							<option value="{{category.id}}">{{category.name}}</option>
-						{% endfor %}
+						{% if paymentCategories is not empty %}
+							{% for category in paymentCategories %}
+								<option value="{{category.id}}">{{category.name}}</option>
+							{% endfor %}
+						{% endif %}
 					</select>
 				</div>
 				<div class="row w-75 mx-auto my-2">
 					<label for="expense_cat"></label>
-					<select name="expense_cat" id="expense_cat" class="rounded-pill" onchange="checkCategory">
+					<select name="expense_cat" id="expense_cat" class="rounded-pill" onchange="isLimit()">
 						<option disabled selected>Wybierz kategorię wydatku</option>
-						{% for category in expenseCategories %}
-							<option value="{{category.id}}">{{category.name}}</option>
-						{% endfor %}
+						{% if expenseCategories is not empty %}
+							{% for category in expenseCategories %}
+								<option value="{{ category.limit_active }}" id="{{ category.id }}">{{ category.name }}
+									Limit={{ category.limit_active }}</option>
+							{% endfor %}
+						{% endif %}
 					</select>
 				</div>
 				<div class="row w-75 mx-auto my-2">
@@ -52,5 +82,4 @@
 				</div>
 			</form>
 		</div>
-		<script src="/js/limit.js"></script>
 	{% endblock %}

@@ -1,4 +1,14 @@
-// FETCH
+const hideLimitSection = () => {
+    $('.limitSection').hide();
+};
+
+const isLimit = () => {
+    document.getElementById('expense_cat').addEventListener('change', function () {
+        this.value == 1 ? checkCategory() : hideLimitSection();
+    });
+}
+
+
 
 fetch("/api/expenses")
     .then((response) => response.json())
@@ -6,7 +16,7 @@ fetch("/api/expenses")
 
 // REST API
 const renderOnDom = () => {
-    // renderDOM if necessary
+
 };
 
 const calculateLimits = () => {
@@ -18,21 +28,10 @@ const getSumOfExpensesForSelectedMonth = () => {
 };
 
 const getLimitForCategory = () => {
-    fetch(`/api/limit/:${id}`);
+    fetch(`/api/limit/:${id}`)
+        .then((response) => response.json())
+        .then((data) => console.log(data));
     //Limit dla kategorii z danym id
-};
-const getLimitData = () => {
-    $.ajax({
-        type: 'POST',
-        url: '/add-expense/get-limit-data',
-        dataType: 'json',
-        data: {
-            postCategoryId: categoryId
-        },
-
-        success: (result) => setCurrentExpenseLimit(result.expense_limit),
-        error: (xhr) => alert(xhr.status)
-    });
 };
 
 //Zmiana daty
@@ -40,11 +39,13 @@ const checkLimit = () => {
     getSumOfExpensesForSelectedMonth();
     calculateLimits();
     renderOnDom();
-
 };
 
 //Zmiana kategorii
+
 const checkCategory = () => {
+    $('.limitSection').show();
     getLimitForCategory();
     checkLimit();
 };
+

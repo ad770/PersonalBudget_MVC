@@ -86,6 +86,21 @@ class Expense extends \Core\Model
         return $stmt->execute();
     }
 
+    public static function getLimitValueByExpenseId($id)
+    {
+        $sql = 'SELECT limit_value FROM expenses_category_assigned_to_users
+                WHERE user_id = :user_id AND id = :id';
+        $user_id = Auth::getUser();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getPaymentCategories()
     {
         $sql = 'SELECT * FROM payment_methods_assigned_to_users
