@@ -45,6 +45,7 @@ class Items extends Authenticated
     public function expensesAjaxAction()
     {
         echo json_encode(Expense::getExpenseCategories(), JSON_UNESCAPED_UNICODE);
+        // echo json_encode(Expense::getPaymentCategories(), JSON_UNESCAPED_UNICODE);
     }
 
     public function limitValueAction()

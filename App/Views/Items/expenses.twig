@@ -65,7 +65,7 @@
 						<option disabled selected>Wybierz kategorię wydatku</option>
 						{% if expenseCategories is not empty %}
 							{% for category in expenseCategories %}
-								<option value="{{ category.limit_active }}" id="{{ category.id }}">{{ category.name }}
+								<option value="{{ category.limit_active }}" name="{{ category.name }}" id="{{ category.id }}">{{ category.name }}
 									Limit={{ category.limit_active }}</option>
 							{% endfor %}
 						{% endif %}

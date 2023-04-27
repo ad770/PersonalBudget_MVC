@@ -41,9 +41,8 @@ $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'act
 $router->add('api/expenses', ['controller' => 'Items', 'action' => 'expensesAjax']);
 // $router->add('api/expenses/{id:[\d]+}?date=${date}', ['controller' => 'Items', 'action' => 'expensesAjax']);
 
-$router->add('api/limit/{id:[\d]+}', ['controller' => 'Items', 'action' => 'expenses']);
+$router->add('api/limit/{id:[\d]+}', ['controller' => 'Items', 'action' => 'limitValue']);
 
 $router->add('{controller}/{action}');
-
 
 $router->dispatch($_SERVER['QUERY_STRING']);
