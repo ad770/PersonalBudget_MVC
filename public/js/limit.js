@@ -10,6 +10,7 @@ const isLimit = () => {
     });
 }
 
+
 fetch("/api/expenses")
     .then((response) => response.json())
     .then((data) => console.log(data));
@@ -28,18 +29,18 @@ const getSumOfExpensesForSelectedMonth = () => {
 };
 
 const getLimitForCategory = (id) => {
-    fetch(`/api/limit/:${id}`)
+    fetch(`/api/limit/${id}`)
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error));
+        .catch(error => (console.error('Error:', error)));
 };
 
 //Zmiana daty
-const checkLimit = () => {
+function checkLimit() {
     getSumOfExpensesForSelectedMonth();
     calculateLimits();
     renderOnDom();
-};
+}
 
 //Zmiana kategorii
 

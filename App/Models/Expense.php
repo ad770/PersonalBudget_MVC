@@ -66,8 +66,6 @@ class Expense extends \Core\Model
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id->id, PDO::PARAM_INT);
 
-        // $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -98,7 +96,7 @@ class Expense extends \Core\Model
 
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function getPaymentCategories()
