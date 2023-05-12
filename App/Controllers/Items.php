@@ -44,8 +44,15 @@ class Items extends Authenticated
 
     public function expensesAjaxAction()
     {
-        echo json_encode(Expense::getExpenseCategories(), JSON_UNESCAPED_UNICODE);
-        // echo json_encode(Expense::getPaymentCategories(), JSON_UNESCAPED_UNICODE);
+        $id = $this->route_params['id'];
+        $date = $this->route_params['date'];
+        echo ("Dane pobrane:");
+        echo ("ID: ");
+        echo ($id);
+        echo ("Date: ");
+        echo ($date);
+        echo ("Koniec danych");
+        // echo json_encode(Expense::getLimitValueByExpenseId($id), JSON_UNESCAPED_UNICODE);
     }
 
     public function limitValueAction()
@@ -73,6 +80,7 @@ class Items extends Authenticated
     public function balanceAction()
     {
         $balancePeriod = new Balance($_POST);
+        print_r($balancePeriod);
         if ($selectedPeriod = $balancePeriod->switchTime()) {
             View::renderTemplate('Items/balance.twig', [
                 'incomesData' => Balance::getIncomes($selectedPeriod),

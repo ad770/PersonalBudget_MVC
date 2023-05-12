@@ -5,15 +5,23 @@ const hideLimitSection = () => {
 const isLimit = () => {
     document.getElementById('expense_cat').addEventListener('change', function () {
         const id = this.options[this.selectedIndex].id;
-        console.log(id);
         this.value == 1 ? checkCategory(id) : hideLimitSection();
     });
 }
 
+const getMonth = (id) => {
+    const date = document.getElementById('expense_date').value;
+    console.log("Data: ");
+    console.log(date);
+    console.log(" id: ");
+    console.log(id);
 
-fetch("/api/expenses")
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+    getSumOfExpensesForSelectedMonth(id, date);
+}
+
+// fetch("/api/expenses")
+//     .then((response) => response.json())
+//     .then((data) => console.log(data));
 
 // REST API
 const renderOnDom = () => {
@@ -24,8 +32,12 @@ const calculateLimits = () => {
     //calculate limits
 };
 
-const getSumOfExpensesForSelectedMonth = () => {
-    // fetch(`api/expenses/:${id}?date=${date}`);
+const getSumOfExpensesForSelectedMonth = (id, date) => {
+    fetch(`api/expenses/:${id}?date=${date}`)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => (console.error('Error:', error)));
+
 };
 
 const getLimitForCategory = (id) => {
@@ -33,6 +45,7 @@ const getLimitForCategory = (id) => {
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => (console.error('Error:', error)));
+    getMonth(id);
 };
 
 //Zmiana daty
@@ -47,6 +60,6 @@ function checkLimit() {
 const checkCategory = (id) => {
     $('.limitSection').show();
     getLimitForCategory(id);
-    checkLimit();
+    //checkLimit();
 };
 
