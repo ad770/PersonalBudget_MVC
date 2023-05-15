@@ -99,6 +99,23 @@ class Expense extends \Core\Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function getSumOfCategoryExpenseForSelectedMonth($id, $month)
+    {
+        $startDate = date('Y-m-d', strtotime(`first day of ${month}`));
+        $endDate = date('Y-m-d', strtotime(`last day of ${month}`));
+
+        $sql = 'SELECT SUM(expenses.amount) as expenseSum FROM expenses WHERE expenses.expense_category_assigned_to_user_id = :id AND expenses.date_of_expense BETWEEN :beginDate AND :endDate';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':beginDate', $startDate, PDO::PARAM_STR);
+        $stmt->bindValue(':endDate', $endDate, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public static function getPaymentCategories()
     {
         $sql = 'SELECT * FROM payment_methods_assigned_to_users

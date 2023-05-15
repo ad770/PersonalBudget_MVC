@@ -42,17 +42,11 @@ class Items extends Authenticated
         ]);
     }
 
-    public function expensesAjaxAction()
+    public function expensesAjaxAction($date)
     {
         $id = $this->route_params['id'];
-        $date = $this->route_params['date'];
-        echo ("Dane pobrane:");
-        echo ("ID: ");
-        echo ($id);
-        echo ("Date: ");
-        echo ($date);
-        echo ("Koniec danych");
-        // echo json_encode(Expense::getLimitValueByExpenseId($id), JSON_UNESCAPED_UNICODE);
+        // $date = $this->route_params['date'];
+        echo json_encode(Expense::getSumOfCategoryExpenseForSelectedMonth($id, $date), JSON_UNESCAPED_UNICODE);
     }
 
     public function limitValueAction()
