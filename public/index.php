@@ -38,7 +38,7 @@ $router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'action' => 'reset']);
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
 
-$router->add('api/expenses/{id:[\d]+}?date=${date}', ['controller' => 'Items', 'action' => 'expensesAjax']);
+$router->add('api/expenses/{id:[\d]+}/{date:[a-zA-Z]+}', ['controller' => 'Items', 'action' => 'expensesAjax']);
 
 $router->add('api/limit/{id:[\d]+}', ['controller' => 'Items', 'action' => 'limitValue']);
 

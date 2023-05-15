@@ -42,11 +42,11 @@ class Items extends Authenticated
         ]);
     }
 
-    public function expensesAjaxAction($date)
+    public function expensesAjaxAction()
     {
         $id = $this->route_params['id'];
-        // $date = $this->route_params['date'];
-        echo json_encode(Expense::getSumOfCategoryExpenseForSelectedMonth($id, $date), JSON_UNESCAPED_UNICODE);
+        $month = $this->route_params['date'];
+        echo json_encode(Expense::getSumOfCategoryExpenseForSelectedMonth($id, $month), JSON_UNESCAPED_UNICODE);
     }
 
     public function limitValueAction()
