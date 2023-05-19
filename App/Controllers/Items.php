@@ -26,7 +26,7 @@ class Items extends Authenticated
             Flash::addMessage('Przychód poprawnie dodano!');
             $this->redirect('/Items/incomes');
         } else {
-            Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
+            // Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
             View::renderTemplate('Items/incomes.twig', [
                 'incomeCategories' => Income::getIncomeCategories(),
                 'income' => $income
@@ -44,15 +44,21 @@ class Items extends Authenticated
 
     public function expensesAjaxAction()
     {
-        $id = $this->route_params['id'];
-        $month = $this->route_params['date'];
-        echo json_encode(Expense::getSumOfCategoryExpenseForSelectedMonth($id, $month), JSON_UNESCAPED_UNICODE);
+        $categoryId = $this->route_params['id'];
+        $date = $this->route_params['date'];
+
+        $startDateFind = strtotime(date("Y-m-d", strtotime($date)) . ", first day of this month");
+        $startDate = date("Y-m-d", $startDateFind);
+        $lastDateFind = strtotime(date("Y-m-d", strtotime($date)) . ", last day of this month");
+        $endDate = date("Y-m-d", $lastDateFind);
+
+        echo json_encode(Expense::getSumOfCategoryExpenseForSelectedMonth($categoryId, $startDate, $endDate), JSON_UNESCAPED_UNICODE);
     }
 
     public function limitValueAction()
     {
-        $id = $this->route_params['id'];
-        echo json_encode(Expense::getLimitValueByExpenseId($id), JSON_UNESCAPED_UNICODE);
+        $categoryId = $this->route_params['id'];
+        echo json_encode(Expense::getLimitValueByExpenseId($categoryId), JSON_UNESCAPED_UNICODE);
     }
 
     public function newExpenseAction()
@@ -62,7 +68,7 @@ class Items extends Authenticated
             Flash::addMessage('Wydatek poprawnie dodano!');
             $this->redirect('/Items/expenses');
         } else {
-            Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
+            // Flash::addMessage('Coś poszło nie tak, spróbuj ponownie', Flash::WARNING);
             View::renderTemplate('Items/expenses.twig', [
                 'expenseCategories' => Expense::getExpenseCategories(),
                 'paymentCategories' => Expense::getPaymentCategories(),
@@ -74,7 +80,6 @@ class Items extends Authenticated
     public function balanceAction()
     {
         $balancePeriod = new Balance($_POST);
-        print_r($balancePeriod);
         if ($selectedPeriod = $balancePeriod->switchTime()) {
             View::renderTemplate('Items/balance.twig', [
                 'incomesData' => Balance::getIncomes($selectedPeriod),

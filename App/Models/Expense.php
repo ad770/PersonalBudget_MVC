@@ -37,7 +37,7 @@ class Expense extends \Core\Model
 
     public function addExpense()
     {
-        // $this->validate();
+        $this->validate();
 
         if (empty($this->errors)) {
 
@@ -99,11 +99,8 @@ class Expense extends \Core\Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function getSumOfCategoryExpenseForSelectedMonth($id, $month)
+    public static function getSumOfCategoryExpenseForSelectedMonth($id, $startDate, $endDate)
     {
-        $startDate = date('Y-m-d', strtotime(`first day of ${month}`));
-        $endDate = date('Y-m-d', strtotime(`last day of ${month}`));
-
         $sql = 'SELECT SUM(expenses.amount) as expenseSum FROM expenses WHERE expenses.expense_category_assigned_to_user_id = :id AND expenses.date_of_expense BETWEEN :beginDate AND :endDate';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -154,24 +151,24 @@ class Expense extends \Core\Model
     {
         // Value
         if ($this->expense_value == '') {
-            $this->errors[] = 'Podaj wartość';
+            $this->errors[] = 'podaj wartość';
         } else if ($this->expense_value <= '0') {
-            $this->errors[] = 'Wartość musi być większa od 0';
+            $this->errors[] = 'wartość musi być większa od 0';
         }
 
         //Expense category
-        if ($this->expense_cat == '') {
-            $this->errors[] = 'Wybierz kategorię wydatku';
+        if (!isset($this->expense_cat)) {
+            $this->errors[] = 'kategoria wydatku nie może być pusta';
         }
 
         //Payment method
-        if ($this->expense_payment == '') {
-            $this->errors[] = 'Wybierz metodę płatności';
+        if (!isset($this->expense_payment)) {
+            $this->errors[] = 'metoda płatności nie może być pusta';
         }
 
         //Date of expense
         if ($this->expense_date == '') {
-            $this->errors[] = 'Wybierz datę wydatku';
+            $this->errors[] = 'data wydatku nie może być pusta';
         }
     }
 }
