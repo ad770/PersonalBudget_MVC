@@ -7,32 +7,33 @@
 {% block body %}
 	{% set balance = incomeSum[0].incomeSum - expenseSum[0].expenseSum %}
 	{% if current_user %}
-		<div class="row text-center">
+		<div class="row justify-content-center row col-lg-8 my-2 p-2 mx-auto shadow rounded-4 text-dark text-center bg-light">
 			<h2>Cześć
-				{{ current_user.name }}! Twój bilans z obecnego miesiąca:</h2>
-		</div>
-		<div>
+				{{ current_user.name }}!
+				<br>
+				Bilans z obecnego miesiąca:</h2>
+
 			<h2 class="text-center {% if balance < 0 %} text-danger {% else %} text-success {% endif %}">
 				{{balance | number_format(2,'.','')}}
-				zł</h2>
-			<h4 class="text-center">
-				{% if balance > 5000 %}
-					Brawo! Świetnie zarządzasz swoim budżetem!
-				{% elseif balance <= 5000 and balance > 2000 %}
-					Brawo! Dobrze sobie radzisz, wychodzisz na plus!
-				{% elseif balance <= 2000 and balance > 0 %}
-					Brawo! Oszczędzasz!
-				{% elseif balance <= 2000 and balance> 0 %}
-					Twoje wydatki i przychody się zrównały!
-				{% else %}
-					Uwaga! Zacznij pilnować wydatków!
-				{% endif %}
-			</h4>
+				zł<br><small>
+					{% if balance > 5000 %}
+						Brawo! Świetnie zarządzasz swoim budżetem!
+					{% elseif balance <= 5000 and balance > 2000 %}
+						Brawo! Dobrze sobie radzisz, wychodzisz na plus!
+					{% elseif balance <= 2000 and balance > 0 %}
+						Brawo! Oszczędzasz!
+					{% elseif balance <= 2000 and balance> 0 %}
+						Twoje wydatki i przychody się zrównały!
+					{% else %}
+						Uwaga! Zacznij pilnować wydatków!
+					{% endif %}
+				</small>
+			</h2>
 		</div>
-		<div class="row text-center">
+		<div class="row justify-content-center row col-lg-8 my-2 p-2 mx-auto shadow rounded-4 text-dark text-center bg-light">
 			<table class="charts">
 				<tr>
-					<div id="chart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+					<div id="chart" style=" height:30em;"></div>
 				</tr>
 			</table>
 		</div>

@@ -1,14 +1,15 @@
 {% extends 'logged.html' %}
 
-{% block title %}Balance{% endblock %}
+{% block title %}Balance
+{% endblock %}
 {% block headscript %}
 	<script>
 		$(document).ready(function () {
-			$(".hiddenRow").hide();
-			$(".mainRow").click(function () {
-				$(this).next().fadeToggle();
-			});
-		});
+$(".hiddenRow").hide();
+$(".mainRow").click(function () {
+$(this).next().fadeToggle();
+});
+});
 	</script>
 {% endblock %}
 
@@ -17,110 +18,115 @@
 	{% include "Items/charts.twig" %}
 {% endblock %}
 {% block body %}
-	<h1 class="text-center">Twój bilans z wybranego okresu rozliczeniowego</h1>
+	<h1 class="text-center bg-light p-2 w-50 mx-auto rounded-4 shadow">Bilans szczegółowy</h1>
 	{% set total = incomeSum[0].incomeSum - expenseSum[0].expenseSum %}
-	<h2 class="text-center {% if total < 0 %} text-danger {% else %} text-success {% endif %}"> {{total | number_format(2,'.','')}}	zł</h2>
-	<div class="container">
-		<div class="balance_panel mb-4">
-			<div class="select_balance">
-				<div class="balance_content d-flex flex-wrap justify-content-center">
-					<form action="/items/balance" method="POST" id="periodForm" name="periodForm">
-						<select class="mt-3 w-100 text-center rounded-pill p-1" name="balanceDateOption" id="dateOption" onchange="form.submit()">
-							<option value="currentMonth" {% if period.balanceDateOption == 'currentMonth' %} selected="selected" {% endif %}>Bieżący miesiąc</option>
-							<option value="previousMonth" {% if period.balanceDateOption == 'previousMonth' %} selected="selected" {% endif %}>Poprzedni miesiąc</option>
-							<option value="currentYear" {% if period.balanceDateOption == 'currentYear' %} selected="selected" {% endif %}>Bieżący rok</option>
-							<option value="undenify" {% if period.balanceDateOption == 'undenify' %} selected="selected" {% endif %}>Niestandardowy</option>
-						</select>
-						<div name="undenifyDate" id="undenifyDate">
-							<div class="input-group justify-content-between">
-								<div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-									<label class="text-center" for="postBeginDate">Data początkowa</label>
-									<input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
-								</div>
-								<div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
-									<label class="text-center" for="postEndDate">Data końcowa</label>
-									<input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ endDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
-								</div>
+	<h2 class="text-center bg-light p-2 w-50 mx-auto rounded-4 shadow {% if total < 0 %} text-danger {% else %} text-success {% endif %}">
+		{{total | number_format(2,'.','')}}
+		zł</h2>
+	<div class="balance_panel mb-4">
+		<div class="select_balance bg-light p-2 w-50 mx-auto rounded-4 shadow">
+			<div class="balance_content d-flex flex-wrap justify-content-center">
+				<form action="/items/balance" method="POST" id="periodForm" name="periodForm">
+					<select class="mt-3 w-100 text-center rounded-pill p-1" name="balanceDateOption" id="dateOption" onchange="form.submit()">
+						<option value="currentMonth" {% if period.balanceDateOption == 'currentMonth' %} selected="selected" {% endif %}>Bieżący miesiąc</option>
+						<option value="previousMonth" {% if period.balanceDateOption == 'previousMonth' %} selected="selected" {% endif %}>Poprzedni miesiąc</option>
+						<option value="currentYear" {% if period.balanceDateOption == 'currentYear' %} selected="selected" {% endif %}>Bieżący rok</option>
+						<option value="undenify" {% if period.balanceDateOption == 'undenify' %} selected="selected" {% endif %}>Niestandardowy</option>
+					</select>
+					<div name="undenifyDate" id="undenifyDate">
+						<div class="input-group justify-content-between">
+							<div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
+								<label class="text-center" for="postBeginDate">Data początkowa</label>
+								<input type="date" class="rounded-pill p-1 text-center" name="postBeginDate" id="postBeginDate" value="{{ beginDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
+							</div>
+							<div class="col-10 col-sm-8 col-md-6 col-lg-5 mx-2 my-2 d-flex flex-column align-self-center">
+								<label class="text-center" for="postEndDate">Data końcowa</label>
+								<input type="date" class="rounded-pill p-1 text-center" name="postEndDate" id="postEndDate" value="{{ endDate }}" onchange="form.submit()" {% if period.balanceDateOption != 'undenify' %} disabled {% endif %}/>
 							</div>
 						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
-			<div class="row d-flex flex-wrap">
-				<table class="charts text-center">
-					<tr>
-						<div id="incomeChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-						<div id="expenseChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
-					</tr>
-				</table>
+		</div>
+		<div class="row d-flex flex-wrap bg-light p-2 my-2 rounded-4 shadow">
+			<table class="charts text-center">
+				<tr>
+					<div id="incomeChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+					<div id="expenseChart" class="col-10 col-md-6 mx-auto" style=" height:30em;"></div>
+				</tr>
+			</table>
+		</div>
+
+		<div id="wrapper" class="row show_balance bg-light p-2 my-2 rounded-4 shadow">
+			<div class="row text-center col-4 mx-auto">
+				<h2 class="mt-4 w-30">Historia transakcji</h2>
+			</div>
+			<div class="row text-center">
+				<div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
+					<div class="income_balance">
+						<div class="h2">Przychody</div>
+						<table id="table_detail" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Wartość PLN</th>
+									<th>Data</th>
+								</tr>
+							</thead>
+							{% set totalIncome = 0 %}
+							{% for income in incomesData %}
+								{% set totalIncome = totalIncome + income.amount %}
+								<tr class="mainRow">
+									<td>{{ income.amount }}</td>
+									<td>{{ income.date_of_income }}</td>
+								</tr>
+								<tr class="hiddenRow">
+									<td colspan="2">
+										Kategoria:
+										{{ income.name }}<br/>
+										{% if income.income_comment is not empty %}
+											Uwagi:
+											{{ income.income_comment }}
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+				<div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
+					<div class="expense_balance">
+						<div class="h2">Wydatki</div>
+						<table id="table_detail" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Wartość PLN</th>
+									<th>Data</th>
+								</tr>
+							</thead>
+							{% set totalExpense = 0 %}
+							{% for expense in expensesData %}
+								{% set totalExpense = totalExpense + expense.amount %}
+								<tr class="mainRow">
+									<td>{{ expense.amount }}</td>
+									<td>{{ expense.date_of_expense }}</td>
+								</tr>
+								<tr class="hiddenRow">
+									<td colspan="2">
+										Kategoria:
+										{{ expense.expense_cat }}<br/>
+										Metoda płatności:{{ expense.payment_method }}<br/>
+										{% if expense.expense is not empty %}
+											Uwagi:
+											{{ expense.expense_comment }}
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div id="wrapper" class="show_balance">
-		<div class="row text-center col-4 mx-auto">
-			<h2 class="mt-4 w-30">Historia transakcji</h2>
-		</div>
-		<div class="row text-center">
-			<div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
-				<div class="income_balance">
-					<div class="h2">Przychody</div>
-					<table id="table_detail" class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>Wartość PLN</th>
-								<th>Data</th>
-							</tr>
-						</thead>
-						{% set totalIncome = 0 %}
-						{% for income in incomesData %}
-							{% set totalIncome = totalIncome + income.amount %}
-							<tr class="mainRow">
-								<td>{{ income.amount }}</td>
-								<td>{{ income.date_of_income }}</td>
-							</tr>
-							<tr class="hiddenRow">
-								<td colspan="2">
-									Kategoria: {{ income.name }}<br/>
-									{% if income.income_comment is not empty %}
-										Uwagi: {{ income.income_comment }}
-									{% endif %}
-								</td>
-							</tr>
-						{% endfor %}
-					</table>
-				</div>
-			</div>
-			<div class="col-8 col-sm-6 col-md-5 col-lg-4 mx-auto">
-				<div class="expense_balance">
-					<div class="h2">Wydatki</div>
-					<table id="table_detail" class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>Wartość PLN</th>
-								<th>Data</th>
-							</tr>
-						</thead>
-						{% set totalExpense = 0 %}
-						{% for expense in expensesData %}
-							{% set totalExpense = totalExpense + expense.amount %}
-							<tr class="mainRow">
-								<td>{{ expense.amount }}</td>
-								<td>{{ expense.date_of_expense }}</td>
-							</tr>
-							<tr class="hiddenRow">
-								<td colspan="2">
-									Kategoria: {{ expense.expense_cat }}<br/>
-									Metoda płatności:{{ expense.payment_method }}<br/>
-									{% if expense.expense is not empty %}
-										Uwagi: {{ expense.expense_comment }}
-									{% endif %}
-								</td>
-							</tr>
-						{% endfor %}
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
 {% endblock %}
