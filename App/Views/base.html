@@ -33,7 +33,7 @@
         </div>
     </nav>
 
-    <div class="container p-4">
+    <div class="container-fluid p-4">
         {% block subnav %}{% endblock %}
         {% for message in flash_messages %}
         <div class="alert alert-{{ message.type }} col-12 text-center mx-auto">

@@ -6,8 +6,7 @@ body {
 }
 
 .active {
-    background-color: #cfccc0;
-    color: green;
+    background-color: #2057ec9f;
 }
 
 textarea {
@@ -56,6 +55,11 @@ textarea {
 }
 
 .navbar-nav>li:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgba(87, 41, 3, 0.5);
+}
+
+div.nav-item:hover {
     color: rgb(255, 255, 255);
     background-color: rgba(87, 41, 3, 0.5);
 }
